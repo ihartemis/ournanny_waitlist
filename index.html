@@ -396,10 +396,17 @@
             width: auto;
         }
 
-        .nav-links {
+        /* Desktop Navigation Group */
+        .desktop-menu {
             display: none;
+            align-items: center;
+            gap: 32px;
         }
-        @media(min-width: 768px) {
+        
+        @media(min-width: 992px) {
+            .desktop-menu {
+                display: flex;
+            }
             .nav-links {
                 display: flex;
                 gap: 24px;
@@ -407,6 +414,92 @@
             .nav-links .btn-link {
                 font-size: 1.35rem; /* Larger font size for nav links */
             }
+        }
+
+        /* Hamburger Button */
+        .hamburger {
+            display: block;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            position: relative;
+            z-index: 120;
+            padding: 0;
+        }
+        
+        @media(min-width: 992px) {
+            .hamburger {
+                display: none;
+            }
+        }
+        
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 4px;
+            background-color: var(--col-ink);
+            margin: 6px 0;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hamburger Active State */
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 6px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -6px);
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--bg-cream);
+            z-index: 110;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            border-left: var(--border-ink);
+        }
+
+        .mobile-nav-overlay.active {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .mobile-link {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--col-ink);
+            text-decoration: none;
+            padding: 10px;
+            transition: color 0.2s;
+        }
+        
+        .mobile-link:hover {
+            color: var(--col-orange);
         }
 
         /* --- HERO --- */
@@ -1065,14 +1158,35 @@
                 <img src="https://image2url.com/images/1765663724425-947cc2e7-3be6-4b70-9043-03bf0d69c146.png" alt="OurNanny" style="height: 144px; width: auto;">
                 OurNanny
             </a>
-            <div class="nav-links">
-                <a href="#how-it-works" class="btn-link">How it works</a>
-                <a href="#features" class="btn-link">Features</a>
-                <a href="#faq" class="btn-link">FAQ</a>
+            
+            <!-- Desktop Menu (Hidden on mobile) -->
+            <div class="desktop-menu">
+                <div class="nav-links">
+                    <a href="#how-it-works" class="btn-link">How it works</a>
+                    <a href="#features" class="btn-link">Features</a>
+                    <a href="#faq" class="btn-link">FAQ</a>
+                </div>
+                <a href="https://form.typeform.com/to/s9pmWoZm" target="_blank" class="btn btn-primary" style="padding: 12px 24px;">Join the waitlist</a>
             </div>
-            <a href="https://form.typeform.com/to/s9pmWoZm" target="_blank" class="btn btn-primary" style="padding: 12px 24px;">Join the waitlist</a>
+
+            <!-- Hamburger Button (Visible on mobile) -->
+            <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
+    
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-nav-overlay" id="mobile-menu">
+        <div class="mobile-nav-content">
+            <a href="#how-it-works" class="mobile-link">How it works</a>
+            <a href="#features" class="mobile-link">Features</a>
+            <a href="#faq" class="mobile-link">FAQ</a>
+            <a href="https://form.typeform.com/to/s9pmWoZm" target="_blank" class="btn btn-primary mobile-cta" style="margin-top: 1rem;">Join the waitlist</a>
+        </div>
+    </div>
     
     <!-- HERO (Cream + Divider) -->
     <header class="hero section-divider">
@@ -1479,143 +1593,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="screenshot-caption"><h4>Today's Timeline</h4><p>Visual schedule of where everyone is.</p></div>
-            </div>
-            
-            <!-- WEEKLY SCHEDULE -->
-            <div class="screenshot-card">
-                <div class="screenshot-img-wrap" style="overflow: hidden;">
-                     <div class="app-screen" style="transform: scale(0.625); transform-origin: top left; width: 160%; height: 160%; background: #FAFAFA;">
-                        <div class="app-scroll">
-                            <!-- Header -->
-                            <div class="sch-header">
-                                <div class="sch-icon-box">📅</div>
-                                <div style="font-size: 15px; color: #333; line-height: 1.4;">
-                                    You have <strong>5 nanny days</strong> this week across <span style="color:#26A69A; font-weight:600;">2 host locations</span>.
-                                </div>
-                            </div>
-
-                            <!-- Date Nav -->
-                            <div class="date-nav" style="margin-bottom: 24px;">
-                                <button class="date-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
-                                <div class="date-pill" style="padding: 12px 24px; font-size: 16px;">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                    Dec 4 – Dec 10
-                                </div>
-                                <button class="date-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
-                            </div>
-
-                            <!-- List -->
-                            <!-- MON 4 -->
-                            <div class="sch-row">
-                                <div class="sch-date"><div class="sch-day-name">MON</div><div class="sch-day-num">4</div></div>
-                                <div class="sch-card teal">
-                                    <div class="sch-card-top">
-                                        <div class="sch-loc"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #004D40;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg> Smith Family</div>
-                                        <div class="sch-time bg-teal-light">9am – 4pm</div>
-                                    </div>
-                                    <div class="sch-attendees">
-                                        <div class="avatar-group">
-                                            <div class="avatar-circle av-teal">C</div>
-                                            <div class="avatar-circle av-purple">A</div>
-                                        </div>
-                                        <div class="sch-names">Cora, August</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- TUE 5 -->
-                            <div class="sch-row">
-                                <div class="sch-date"><div class="sch-day-name">TUE</div><div class="sch-day-num">5</div></div>
-                                <div class="sch-card teal">
-                                    <div class="sch-card-top">
-                                        <div class="sch-loc"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #004D40;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg> Smith Family</div>
-                                        <div class="sch-time bg-teal-light">9am – 4pm</div>
-                                    </div>
-                                    <div class="sch-attendees">
-                                        <div class="avatar-group">
-                                            <div class="avatar-circle av-teal">C</div>
-                                            <div class="avatar-circle av-purple">A</div>
-                                            <div class="avatar-circle av-pink">M</div>
-                                        </div>
-                                        <div class="sch-names">All kids</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- WED 6 -->
-                            <div class="sch-row">
-                                <div class="sch-date"><div class="sch-day-name">WED</div><div class="sch-day-num">6</div></div>
-                                <div class="sch-card purple">
-                                    <div class="sch-card-top">
-                                        <div class="sch-loc"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #4A148C;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg> Jones Family</div>
-                                        <div class="sch-time bg-purple-light">10am – 3pm</div>
-                                    </div>
-                                    <div class="sch-attendees">
-                                        <div class="avatar-group">
-                                            <div class="avatar-circle av-teal">C</div>
-                                            <div class="avatar-circle av-pink">M</div>
-                                        </div>
-                                        <div class="sch-names">Cora, Max</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- THU 7 -->
-                            <div class="sch-row">
-                                 <div class="sch-date"><div class="sch-day-name">THU</div><div class="sch-day-num">7</div></div>
-                                 <div class="sch-card purple">
-                                    <div class="sch-card-top">
-                                        <div class="sch-loc"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #4A148C;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg> Jones Family</div>
-                                        <div class="sch-time bg-purple-light">10am – 3pm</div>
-                                    </div>
-                                     <div class="sch-attendees">
-                                        <div class="avatar-group">
-                                            <div class="avatar-circle av-teal">C</div>
-                                            <div class="avatar-circle av-pink">M</div>
-                                        </div>
-                                        <div class="sch-names">Cora, Max</div>
-                                    </div>
-                                 </div>
-                            </div>
-
-                            <!-- FRI 8 -->
-                            <div class="sch-row">
-                                <div class="sch-date"><div class="sch-day-name">FRI</div><div class="sch-day-num">8</div></div>
-                                <div class="sch-card teal">
-                                    <div class="sch-card-top">
-                                        <div class="sch-loc"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #004D40;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg> Smith Family</div>
-                                        <div class="sch-time bg-teal-light">9am – 12pm</div>
-                                    </div>
-                                    <div class="sch-attendees">
-                                        <div class="avatar-group">
-                                            <div class="avatar-circle av-teal">C</div>
-                                            <div class="avatar-circle av-purple">A</div>
-                                        </div>
-                                        <div class="sch-names">Cora, August</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="screenshot-caption"><h4>Weekly Plan</h4><p>Plan hosting and attendance ahead.</p></div>
-            </div>
-            <div class="screenshot-card">
-                <div class="screenshot-img-wrap"><img src="/assets/screen-billing.png" alt="Billing"></div>
-                <div class="screenshot-caption"><h4>Auto-Calculated Costs</h4><p>Complex math made simple.</p></div>
-            </div>
-            <div class="screenshot-card">
-                <div class="screenshot-img-wrap"><img src="/assets/screen-pod.png" alt="Pod Management"></div>
-                <div class="screenshot-caption"><h4>Pod Settings</h4><p>Manage families, kids, and rates.</p></div>
-            </div>
-            <div class="screenshot-card">
-                <div class="screenshot-img-wrap"><img src="/assets/screen-feed.png" alt="Feed"></div>
-                <div class="screenshot-caption"><h4>Pod Feed</h4><p>Updates, photos, and daily notes.</p></div>
             </div>
         </div>
-    </section>
+    </header>
 
     <!-- MISSION / ROADMAP -->
     <section class="section-padding roadmap-section">
@@ -1749,7 +1729,24 @@
                 item.classList.toggle('active');
             });
         });
-        // Form handling script removed as form was replaced by button
+        
+        // Hamburger Menu Toggle
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        
+        hamburgerBtn.addEventListener('click', () => {
+            hamburgerBtn.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburgerBtn.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
     </script>
 </body>
 </html>
