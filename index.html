@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OurNanny | Nanny share, without the spreadsheet</title>
+    <meta name="description" content="Coordinate schedules, track host locations, and automatically calculate costs for your nanny share. Launching early 2026.">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="OurNanny - Nanny share made simple">
+    <meta property="og:description" content="Stop the group texts and spreadsheet math. The easiest way to manage schedules and costs for shared childcare.">
+    <meta property="og:image" content="/assets/screen-home.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Font Load: DM Sans (Body), Fraunces (Headings), Nunito (Nav/UI) -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;700&family=Fraunces:opsz,wght@9..144,400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET & VARIABLES --- */
+        :root {
+            /* Palette - Pop/Vibrant */
+            --col-ink: #2C1810; /* Dark Coffee Outline */
+            
+            --col-orange: #FF9F45; /* Brighter Orange */
+            --col-orange-light: #FFF0E0;
+            
+            --col-teal: #2EC4B6; /* Brighter Teal */
+            --col-teal-light: #E0F7FA;
+            --col-teal-pale: #E0F2F1;
+            
+            --col-blue: #3A86FF; /* Brighter Blue */
+            --col-yellow: #FFD93D; /* Brighter Yellow */
+            --col-coral: #FF6B6B; /* Brighter Coral */
+            
+            --col-slate: #5D4D44; /* Warm Grey Text - Slightly Darker for contrast */
+            
+            --bg-cream: #F2E8D5; /* Richer, Warmer Cream Background */
+            --bg-white: #FFFFFF;
+            
+            /* Design System */
+            --border-width: 2.5px;
+            --border-ink: var(--border-width) solid var(--col-ink);
+            
+            --shadow-hard: 3px 3px 0px var(--col-ink);
+            --shadow-hover: 5px 5px 0px var(--col-ink);
+            --shadow-active: 1px 1px 0px var(--col-ink);
+            
+            --radius-sm: 16px;
+            --radius-md: 24px;
+            --radius-lg: 32px;
+            --radius-xl: 48px;
+            --radius-full: 9999px;
+
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 5rem; /* Larger spacing */
+            --space-xl: 8rem;
+            
+            /* FONT STACK */
+            --font-heading: 'Fraunces', serif; 
+            --font-sans: 'DM Sans', sans-serif;
+            --font-nav: 'Nunito', sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-cream);
+            color: var(--col-ink);
+            line-height: 1.6;
+            font-size: 1.125rem; /* Base size increased to 18px */
+            -webkit-font-smoothing: antialiased;
+            /* Texture - Dot color adjusted to be visible on darker cream */
+            background-image: radial-gradient(#E0D4C3 1.5px, transparent 1.5px);
+            background-size: 32px 32px;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        section {
+            scroll-margin-top: 100px;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        /* H1 and H2 use Fraunces (Serif) */
+        h1, h2 {
+            font-family: var(--font-heading);
+            color: var(--col-ink);
+            line-height: 1.15;
+            font-weight: 700; 
+        }
+
+        /* H3, H4, H5 use Nunito (Rounded Sans) */
+        h3, h4, h5 {
+            font-family: var(--font-nav);
+            font-weight: 800;
+            color: var(--col-ink);
+            line-height: 1.2;
+        }
+        
+        p {
+            font-family: var(--font-sans);
+        }
+
+        /* --- UTILITIES --- */
+        .container {
+            width: 100%;
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 var(--space-sm);
+        }
+
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .gap-sm { gap: var(--space-sm); }
+        .gap-md { gap: var(--space-md); }
+
+        .grid { display: grid; }
+        .grid-2 { grid-template-columns: 1fr; }
+        .grid-3 { grid-template-columns: 1fr; }
+
+        @media (min-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr 1fr; }
+            .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .text-center { text-align: center; }
+        .text-sm { font-size: 1rem; } /* Increased from 0.875rem */
+        .text-lg { font-size: 1.25rem; }
+        .font-bold { font-weight: 700; }
+
+        /* Background & Divider Utils */
+        .bg-white {
+            background-color: var(--bg-white);
+        }
+        .section-divider {
+            border-bottom: var(--border-ink);
+        }
+
+        /* --- COMPONENTS --- */
+        
+        /* Badges / Pills */
+        .pill-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 32px;
+            background-color: #ffffff;
+            color: var(--col-ink);
+            border: 2px solid var(--col-ink);
+            border-radius: var(--radius-full);
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: var(--space-sm);
+            box-shadow: none;
+            transform: none; 
+            transition: all 0.2s ease;
+            cursor: default;
+        }
+        
+        .pill-badge:hover {
+            background-color: var(--col-teal-light);
+            transform: scale(1.02);
+            border-color: var(--col-teal);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 36px; /* Larger buttons */
+            border-radius: var(--radius-full);
+            font-family: var(--font-nav);
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            border: var(--border-ink);
+            font-size: 1.125rem;
+            white-space: nowrap;
+            box-shadow: var(--shadow-hard);
+            text-transform: none;
+        }
+        
+        .btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: var(--shadow-hover);
+        }
+        .btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: var(--shadow-active);
+        }
+
+        .btn-primary {
+            background-color: var(--col-orange);
+            color: var(--col-ink);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-white);
+            color: var(--col-ink);
+        }
+        
+        .btn-link {
+            padding: 8px 16px;
+            background: transparent;
+            color: var(--col-ink);
+            font-weight: 700;
+            border: none;
+            font-family: var(--font-nav);
+            font-size: 1.125rem;
+        }
+        .btn-link:hover {
+            color: var(--col-orange);
+            text-decoration: underline;
+            text-decoration-thickness: 3px;
+        }
+
+        .section-padding {
+            padding: var(--space-lg) 0;
+        }
+
+        /* Cards */
+        .card-box {
+            background: var(--bg-white);
+            border: var(--border-ink);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-hard);
+            padding: var(--space-md);
+        }
+
+        /* Comparison Cards */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-md);
+            margin-top: var(--space-md);
+        }
+        @media(min-width: 900px) {
+            .comparison-grid {
+                grid-template-columns: 1fr 1.1fr 1fr; /* Middle card slightly wider */
+                align-items: center;
+            }
+        }
+
+        .comp-card {
+            background: #fff;
+            border: var(--border-ink);
+            border-radius: var(--radius-lg);
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            height: 100%;
+            position: relative;
+        }
+
+        /* Middle card style */
+        .comp-card.featured {
+            background: var(--col-teal-light);
+            box-shadow: var(--shadow-hard);
+            z-index: 10;
+        }
+        @media(min-width: 900px) {
+            .comp-card.featured {
+                transform: scale(1.05); /* Make it pop */
+                padding: 40px 32px;
+            }
+        }
+
+        .comp-icon-box {
+            width: 64px;
+            height: 64px;
+            border: var(--border-ink);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            box-shadow: 2px 2px 0px var(--col-ink);
+        }
+
+        .comp-title {
+            font-family: var(--font-nav);
+            font-size: 1.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .comp-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .comp-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1.05rem;
+            line-height: 1.4;
+            color: var(--col-ink);
+        }
+
+        .bullet-icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .featured .bullet-icon {
+             color: var(--col-ink);
+        }
+
+        /* Floating badge for featured card */
+        .comp-floating-badge {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--col-ink);
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 8px 16px;
+            border-radius: 999px;
+            border: 2px solid white;
+            font-family: var(--font-nav);
+        }
+
+        /* --- NAVIGATION --- */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: rgba(242, 232, 213, 0.95); /* Adjusted to match new cream */
+            border-bottom: var(--border-ink);
+            padding: 20px 0;
+            backdrop-filter: blur(8px);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--font-nav);
+            font-weight: 800;
+            font-size: 1.75rem;
+            color: var(--col-ink);
+            letter-spacing: -0.02em;
+        }
+        
+        .logo img {
+            height: 144px; /* Increased 3x from 48px */
+            width: auto;
+        }
+
+        .nav-links {
+            display: none;
+        }
+        @media(min-width: 768px) {
+            .nav-links {
+                display: flex;
+                gap: 24px;
+            }
+            .nav-links .btn-link {
+                font-size: 1.35rem; /* Larger font size for nav links */
+            }
+        }
+
+        /* --- HERO --- */
+        .hero {
+            padding-top: var(--space-lg);
+            padding-bottom: var(--space-lg);
+            overflow: hidden; 
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-md);
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        @media(min-width: 992px) {
+            .hero-grid {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: var(--space-xl);
+            }
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            line-height: 1.1;
+            font-weight: 800;
+            color: var(--col-ink);
+            margin-top: var(--space-sm);
+        }
+        @media(min-width: 768px) {
+            .hero h1 { font-size: 5rem; }
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--col-slate);
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-sm);
+            width: 100%;
+            margin-top: 16px;
+        }
+        @media(min-width: 600px) {
+            .hero-actions {
+                flex-direction: row;
+                justify-content: center;
+                gap: var(--space-md);
+            }
+        }
+
+        .hero-visual {
+            position: relative;
+            height: 400px;
+            margin-top: var(--space-md);
+            display: flex;
+            justify-content: center;
+        }
+        @media(min-width: 992px) {
+            .hero-visual {
+                height: 500px;
+                margin-top: 0;
+                justify-content: center;
+                width: 100%;
+            }
+        }
+
+        .phone-mockup {
+            width: 300px;
+            height: 600px;
+            background: #fff;
+            border-radius: 48px;
+            border: var(--border-ink);
+            border-width: 4px;
+            box-shadow: var(--shadow-hard);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .phone-mockup img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+        }
+
+        .phone-primary {
+            position: relative;
+            z-index: 2;
+            transform: rotate(-2deg);
+        }
+        .phone-secondary {
+            position: absolute;
+            z-index: 1;
+            right: 50%;
+            top: 40px;
+            transform: translateX(120px) rotate(6deg) scale(0.95);
+            opacity: 1;
+            display: none;
+            background: var(--col-teal-light);
+        }
+        @media(min-width: 500px) {
+            .phone-secondary { display: block; right: auto; left: 50%; transform: translateX(20px) rotate(6deg) scale(0.95); }
+            .phone-primary { transform: translateX(-40px) rotate(-3deg); }
+        }
+        @media(min-width: 992px) {
+            .phone-primary { transform: translateX(-40px) rotate(-3deg); margin-right: 0; }
+            .phone-secondary { right: auto; left: 50%; transform: translateX(40px) rotate(6deg) scale(0.9); }
+        }
+
+
+        .credibility {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--col-ink);
+            margin-top: var(--space-sm);
+        }
+        .cred-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--col-teal);
+            fill: var(--col-teal);
+            stroke: var(--col-ink);
+            stroke-width: 2;
+        }
+
+        /* --- SECTIONS --- */
+        .section-header {
+            text-align: center;
+            max-width: 750px;
+            margin: 0 auto var(--space-lg) auto;
+        }
+        .section-header h2 {
+            font-size: 3rem;
+            margin-bottom: 24px;
+        }
+        .section-header p {
+            color: var(--col-slate);
+            font-size: 1.35rem;
+        }
+
+        /* HOW IT WORKS */
+        .step-card {
+            text-align: center;
+            padding: var(--space-md);
+            position: relative;
+        }
+        @media(min-width: 768px) {
+            .step-card:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 42px;
+                right: -50%;
+                width: 100%;
+                height: 0;
+                border-top: 3px dashed var(--col-ink);
+                opacity: 0.2;
+                z-index: 0;
+            }
+        }
+        
+        .step-icon-lg {
+            width: 96px;
+            height: 96px;
+            background: var(--col-yellow);
+            border: var(--border-ink);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 32px auto;
+            box-shadow: var(--shadow-hard);
+            color: var(--col-ink);
+            position: relative;
+            z-index: 1;
+        }
+        .step-number {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--col-ink);
+            color: white;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            border: 2px solid white;
+        }
+
+        /* FEATURES GRID */
+        .feature-item {
+            background: white;
+            padding: 48px 40px; 
+            border-radius: var(--radius-lg);
+            border: var(--border-ink);
+            box-shadow: var(--shadow-hard);
+            transition: transform 0.2s;
+        }
+        .feature-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        .feature-item h3 {
+            font-size: 1.5rem; 
+            margin-bottom: 12px;
+        }
+        .feature-item p {
+            font-size: 1.125rem;
+            color: var(--col-slate);
+        }
+        .feature-icon {
+            width: 72px;
+            height: 72px;
+            background: var(--col-teal-light);
+            color: var(--col-ink);
+            border: var(--border-ink);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+
+        /* SCREENSHOTS */
+        .scroll-container {
+            display: flex;
+            gap: var(--space-md);
+            overflow-x: auto;
+            padding: 20px var(--space-sm) 40px var(--space-sm);
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+        .screenshot-card {
+            flex: 0 0 340px;
+            scroll-snap-align: center;
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-hard);
+            border: var(--border-ink);
+        }
+        .screenshot-img-wrap {
+            background: var(--col-teal-light);
+            height: 460px;
+            overflow: hidden;
+            border-bottom: var(--border-ink);
+            position: relative;
+        }
+        .screenshot-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+            transition: transform 0.3s;
+        }
+        .screenshot-card:hover .screenshot-img-wrap img {
+            transform: scale(1.02);
+        }
+        .screenshot-caption {
+            padding: 32px;
+            text-align: center;
+        }
+        .screenshot-caption h4 { margin-bottom: 8px; color: var(--col-ink); font-size: 1.25rem; }
+        .screenshot-caption p { font-size: 1rem; color: var(--col-slate); }
+
+        /* WAITLIST - "Yellow Box" style */
+        .waitlist-box {
+            background: var(--col-yellow);
+            color: var(--col-ink);
+            border: var(--border-ink);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-hard);
+            padding: 64px 32px;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        /* FAQ */
+        .faq-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border: var(--border-ink);
+            border-radius: 16px; 
+            box-shadow: var(--shadow-hard);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+        .faq-item:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 24px 32px;
+            font-size: 1.25rem;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            color: var(--col-ink);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: var(--col-slate);
+            padding: 0 32px;
+            font-size: 1.125rem;
+            line-height: 1.6;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding-bottom: 32px;
+        }
+        
+        .faq-icon-svg {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+        
+        .faq-item.active .faq-icon-svg {
+            transform: rotate(180deg);
+        }
+
+        /* FOOTER */
+        footer {
+            padding: var(--space-lg) 0;
+            border-top: var(--border-ink);
+            color: var(--col-ink);
+            font-size: 1rem;
+            background: white;
+        }
+
+        .form-desktop-wrap {
+            display: contents;
+        }
+        @media(min-width: 600px) {
+            .form-desktop-wrap {
+                display: flex;
+                flex: 1;
+            }
+            .form-desktop-wrap input {
+                border-right: 2px solid #E5E5E5;
+            }
+            .form-desktop-wrap input:last-child {
+                border-right: none;
+            }
+        }
+        
+        /* APP MOCKUP STYLES */
+        .app-screen {
+            width: 100%;
+            height: 100%;
+            background: #FDFDFD;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            font-family: 'DM Sans', sans-serif;
+            text-align: left;
+        }
+        
+        .app-scroll {
+            flex: 1;
+            overflow-y: hidden; 
+            padding: 24px 20px;
+        }
+        .app-scroll::-webkit-scrollbar { display: none; }
+
+        .app-h1 { font-size: 26px; font-weight: 700; color: #111; margin-bottom: 24px; letter-spacing: -0.5px; }
+        
+        .app-card {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            border: 1px solid #f0f0f0;
+        }
+        .sun-icon {
+            width: 40px; height: 40px;
+            background: #FFF9C4; color: #F9A825;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 20px; flex-shrink: 0;
+        }
+        .app-text-sm { font-size: 15px; color: #333; line-height: 1.5; font-weight: 400; }
+        .t-teal { color: #00897B; font-weight: 600; }
+        .t-purple { color: #8E24AA; font-weight: 600; }
+
+        .date-nav {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        .date-btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: white; border: 1px solid #eee;
+            display: flex; align-items: center; justify-content: center;
+            color: #666; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .date-pill {
+            background: white; border: 1px solid #eee;
+            padding: 10px 20px; border-radius: 30px;
+            font-size: 15px; font-weight: 600; color: #111;
+            display: flex; gap: 8px; align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .section-label {
+            font-size: 11px; font-weight: 700; color: #999; letter-spacing: 1.5px;
+            text-transform: uppercase; margin-bottom: 12px;
+        }
+
+        .loc-pill {
+            display: inline-flex; align-items: center; gap: 12px;
+            background: #E0F2F1; color: #004D40;
+            padding: 14px 20px; border-radius: 100px;
+            font-weight: 700; font-size: 16px;
+            width: 100%; border: 1px solid #B2DFDB;
+            margin-bottom: 28px;
+        }
+
+        .actions-grid {
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+            margin-bottom: 32px;
+        }
+        .act-btn {
+            background: white; border: 1px solid #f0f0f0;
+            border-radius: 16px; padding: 16px 4px;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .act-icon { color: #26A69A; font-size: 20px; }
+        .act-icon.red { color: #EF5350; }
+        .act-label { font-size: 12px; font-weight: 600; color: #111; }
+
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: 40px 1fr 1fr;
+            grid-template-rows: repeat(12, 30px); /* 30px per half hour roughly */
+            gap: 0 10px;
+            position: relative;
+        }
+        .tm-label { grid-column: 1; font-size: 12px; font-weight: 600; color: #bbb; text-align: right; padding-right: 12px; transform: translateY(-6px); }
+        .tm-home { position: absolute; left: 30px; top: -5px; color: #26A69A; font-size: 18px; z-index: 5; background: #FDFDFD; border-radius: 50%; }
+        
+        .ev-block {
+            border-radius: 12px; padding: 12px;
+            font-size: 13px; font-weight: 600;
+            display: flex; flex-direction: column; justify-content: space-between;
+            position: relative;
+        }
+        .ev-cora { background: #E0F2F1; color: #00695C; grid-row: 1 / span 8; /* 9-1 */ grid-column: 2; border-left: 3px solid #4DB6AC; }
+        .ev-august { background: #F3E5F5; color: #7B1FA2; grid-row: 2 / span 11; /* 9:30-3:00 */ grid-column: 3; border-left: 3px solid #AB47BC; }
+        .ev-max { background: #FCE4EC; color: #C2185B; grid-row: 7 / span 6; /* 12:00-3:00 */ grid-column: 3; margin-top: 10px; border-left: 3px solid #EC407A; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); }
+
+        .check-badge {
+            background: rgba(255,255,255,0.6); padding: 4px 8px; border-radius: 12px;
+            font-size: 11px; display: inline-flex; align-items: center; gap: 4px; align-self: flex-start;
+        }
+
+        .nav-bar {
+            height: 64px; background: white; border-top: 1px solid #f0f0f0;
+            display: flex; justify-content: space-around; align-items: center;
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding-bottom: 10px; box-sizing: content-box; /* Handle notch area roughly */
+        }
+        .nav-item { color: #ccc; font-size: 24px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .nav-item span { font-size: 10px; font-weight: 600; }
+        .nav-item.active { color: #26A69A; }
+
+        /* Schedule Specifics */
+        .sch-header {
+            background: white; border-radius: 20px; padding: 20px;
+            display: flex; gap: 16px; align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03); border: 1px solid #f0f0f0;
+            margin-bottom: 24px;
+        }
+        .sch-icon-box {
+            width: 48px; height: 48px; background: #FFF9C4; color: #F9A825;
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 24px; flex-shrink: 0;
+        }
+        .sch-row {
+            display: flex; gap: 16px; margin-bottom: 16px;
+        }
+        .sch-date {
+            display: flex; flex-direction: column; align-items: center; width: 40px; padding-top: 8px;
+            flex-shrink: 0;
+        }
+        .sch-day-name { font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; margin-bottom: 4px; }
+        .sch-day-num { font-size: 18px; font-weight: 700; color: #333; }
+
+        .sch-card {
+            flex: 1; background: white; border-radius: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02); border: 1px solid #f0f0f0;
+            padding: 16px; position: relative; overflow: hidden;
+        }
+        /* Side borders */
+        .sch-card::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px;
+            background: #ccc;
+        }
+        .sch-card.teal::before { background: #26A69A; }
+        .sch-card.purple::before { background: #AB47BC; }
+
+        .sch-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .sch-loc { display: flex; align-items: center; gap: 8px; font-weight: 700; color: #111; font-size: 15px; }
+        .sch-time {
+            padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;
+        }
+        .bg-teal-light { background: #E0F2F1; color: #00695C; }
+        .bg-purple-light { background: #F3E5F5; color: #7B1FA2; }
+
+        .sch-attendees { display: flex; align-items: center; gap: 12px; }
+        .avatar-group { display: flex; }
+        .avatar-circle {
+            width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 11px; font-weight: 700; border: 2px solid white; margin-right: -8px;
+        }
+        .av-teal { background: #B2DFDB; color: #004D40; }
+        .av-purple { background: #E1BEE7; color: #4A148C; }
+        .av-pink { background: #F8BBD0; color: #880E4F; }
+
+        .sch-names { font-size: 13px; color: #666; margin-left: 8px; }
+
+        /* ROADMAP SECTION (New) */
+        .roadmap-section {
+            background-color: var(--col-teal);
+            border-top: var(--border-ink);
+            border-bottom: var(--border-ink);
+            color: white;
+            position: relative;
+            background-image: radial-gradient(rgba(255,255,255,0.2) 1.5px, transparent 1.5px);
+            background-size: 30px 30px;
+        }
+
+        .roadmap-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.15); /* Slightly dark overlay for contrast on teal */
+            color: white;
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 999px;
+            margin-bottom: 20px;
+            font-family: var(--font-nav);
+            border: 2px solid white;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+        }
+
+        .roadmap-card {
+            background: white;
+            border: 3px solid var(--col-ink);
+            border-radius: 32px;
+            padding: 40px 32px;
+            box-shadow: 6px 6px 0px var(--col-ink);
+            color: var(--col-ink);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            height: 100%;
+            transition: transform 0.2s;
+            position: relative;
+        }
+        
+        .roadmap-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 8px 8px 0px var(--col-ink);
+        }
+
+        .roadmap-tag {
+            background: var(--col-yellow);
+            color: var(--col-ink);
+            font-size: 0.875rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 10px 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 2px solid var(--col-ink);
+            display: inline-block;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+        }
+
+        .roadmap-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .roadmap-card p {
+            color: var(--col-slate);
+            font-size: 1.125rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav class="navbar">
+        <div class="container nav-inner">
+            <a href="#" class="logo">
+                <img src="https://image2url.com/images/1765663724425-947cc2e7-3be6-4b70-9043-03bf0d69c146.png" alt="OurNanny" style="height: 144px; width: auto;">
+                OurNanny
+            </a>
+            <div class="nav-links">
+                <a href="#how-it-works" class="btn-link">How it works</a>
+                <a href="#features" class="btn-link">Features</a>
+                <a href="#faq" class="btn-link">FAQ</a>
+            </div>
+            <a href="https://form.typeform.com/to/s9pmWoZm" target="_blank" class="btn btn-primary" style="padding: 12px 24px;">Join the waitlist</a>
+        </div>
+    </nav>
+    
+    <!-- HERO (Cream + Divider) -->
+    <header class="hero section-divider">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <div class="pill-badge">✨ Launching early 2026</div>
+                <h1>Nanny share, without the spreadsheet.</h1>
+                <p>The operating system for your nanny pod. Coordinate schedules and automatically split costs. No more Sunday night math.</p>
+                
+                <div class="hero-actions">
+                    <a href="https://form.typeform.com/to/s9pmWoZm" target="_blank" class="btn btn-primary" style="min-width: 220px;">Join the waitlist</a>
+                    <a href="#how-it-works" class="btn btn-secondary">See how it works ↓</a>
+                </div>
+                <!-- ADDED HERO SOCIAL PROOF -->
+                <p class="text-sm" style="color: var(--col-slate); margin-top: 4px; font-weight: 600; font-size: 0.85rem;">Only 100 early access spots available</p>
+
+                <div class="credibility">
+                    <svg class="cred-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <span>Built for real nanny-share pods</span>
+                    <span style="margin: 0 8px; color: #ccc;">|</span>
+                    <svg class="cred-icon" style="fill: var(--col-yellow); color: var(--col-yellow);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    <span>Private by default</span>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="phone-mockup phone-secondary">
+                    <img src="/assets/screen-billing.png" alt="Billing Screen" onerror="this.onerror=null;this.parentNode.style.background='#f0f0f0';">
+                </div>
+                <!-- REPLACED HERO IMAGE WITH LIVE CODE MOCKUP -->
+                <div class="phone-mockup phone-primary">
+                    <div class="app-screen" style="transform: scale(0.625); transform-origin: top left; width: 160%; height: 160%;">
+                        <div class="app-scroll">
+                            <div class="app-h1">Good morning, Sarah</div>
+                            
+                            <div class="app-card">
+                                <div class="sun-icon">☀️</div>
+                                <div class="app-text-sm">You are hosting today from <strong>9–4pm</strong> with <span class="t-teal">Cora</span> and <span class="t-purple">August</span> coming over.</div>
+                            </div>
+
+                            <div class="date-nav">
+                                <button class="date-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                                <div class="date-pill">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                    Today, Dec 5
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
+                                <button class="date-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                            </div>
+
+                            <div class="section-label">HOST LOCATION</div>
+                            <div class="loc-pill">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="color: #004D40;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                Smith Family
+                            </div>
+
+                            <div class="actions-grid">
+                                <div class="act-btn">
+                                    <div class="act-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></div>
+                                    <span class="act-label">Edit Time</span>
+                                </div>
+                                <div class="act-btn">
+                                    <div class="act-icon red"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="9" x2="15" y2="15"></line><line x1="15" y1="9" x2="9" y2="15"></line></svg></div>
+                                    <span class="act-label">Cancel</span>
+                                </div>
+                                <div class="act-btn">
+                                    <div class="act-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg></div>
+                                    <span class="act-label">Add Note</span>
+                                </div>
+                            </div>
+
+                            <div class="timeline-grid">
+                                <div class="tm-label">9 AM</div>
+                                <div class="tm-home"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></div>
+                                
+                                <div class="tm-label" style="grid-row: 3;">10 AM</div>
+                                <div class="tm-label" style="grid-row: 5;">11 AM</div>
+                                <div class="tm-label" style="grid-row: 7;">12 PM</div>
+                                <div class="tm-label" style="grid-row: 9;">1 PM</div>
+                                <div class="tm-label" style="grid-row: 11;">2 PM</div>
+
+                                <div class="ev-block ev-cora">
+                                    <div>Cora<br><span style="font-weight:400; font-size: 11px;">9:00 - 1:00</span></div>
+                                    <div class="check-badge">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                        Checked in
+                                    </div>
+                                </div>
+                                <div class="ev-block ev-august">
+                                    <div>August<br><span style="font-weight:400; font-size: 11px;">9:30 - 3:00</span></div>
+                                </div>
+                                <div class="ev-block ev-max">
+                                    <div>Max<br><span style="font-weight:400; font-size: 11px;">12:00 - 3:00</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="nav-bar">
+                             <div class="nav-item active">
+                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                 <span>Home</span>
+                             </div>
+                             <div class="nav-item">
+                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                 <span>Schedule</span>
+                             </div>
+                             <div class="nav-item">
+                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                 <span>Billing</span>
+                             </div>
+                             <div class="nav-item">
+                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                                 <span>Feed</span>
+                             </div>
+                             <div class="nav-item">
+                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                 <span>Pod</span>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- COMPARISON SECTION (White + Divider) -->
+    <section class="section-padding bg-white section-divider">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why two families are better than one</h2>
+                <p>Especially when you have the right tools to manage it.</p>
+            </div>
+            
+            <div class="comparison-grid">
+                <!-- Card 1: Traditional -->
+                <div class="comp-card">
+                    <div class="comp-icon-box" style="background: var(--col-orange-light); color: var(--col-coral);">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </div>
+                    <h3 class="comp-title">Old Way</h3>
+                    <ul class="comp-list">
+                         <li>
+                             <div class="bullet-icon" style="color: #ccc;">●</div>
+                             <span style="color: var(--col-slate);">Spreadsheet formulas breaking</span>
+                         </li>
+                         <li>
+                             <div class="bullet-icon" style="color: #ccc;">●</div>
+                             <span style="color: var(--col-slate);">"Did you pay me yet?" texts</span>
+                         </li>
+                         <li>
+                             <div class="bullet-icon" style="color: #ccc;">●</div>
+                             <span style="color: var(--col-slate);">Texting back and forth to try to schedule</span>
+                         </li>
+                         <li>
+                             <div class="bullet-icon" style="color: #ccc;">●</div>
+                             <span style="color: var(--col-slate);">Manual overtime math</span>
+                         </li>
+                         <li>
+                             <div class="bullet-icon" style="color: #ccc;">●</div>
+                             <span style="color: var(--col-slate);">Confused husbands</span>
+                         </li>
+                    </ul>
+                </div>
+
+                <!-- Card 2: OurNanny -->
+                <div class="comp-card featured">
+                    <div class="comp-floating-badge">OurNanny</div>
+                    <div class="comp-icon-box" style="background: white; color: var(--col-ink);">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </div>
+                    <h3 class="comp-title">The Operating System for your Pod</h3>
+                    <ul class="comp-list">
+                         <li style="font-weight: 700;">
+                             <div class="bullet-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                             <span>Automatic cost splitting</span>
+                         </li>
+                         <li style="font-weight: 700;">
+                             <div class="bullet-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                             <span>Live shared schedule</span>
+                         </li>
+                         <li style="font-weight: 700;">
+                             <div class="bullet-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                             <span>Fairness built-in</span>
+                         </li>
+                         <li style="font-weight: 700;">
+                             <div class="bullet-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                             <span>Venmo-ready totals</span>
+                         </li>
+                         <li style="font-weight: 700;">
+                             <div class="bullet-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                             <span>Real accountability</span>
+                         </li>
+                    </ul>
+                </div>
+
+                <!-- Card 3: Result -->
+                 <div class="comp-card">
+                    <div class="comp-icon-box" style="background: var(--col-teal-pale); color: var(--col-blue);">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                    </div>
+                    <h3 class="comp-title">The Result</h3>
+                    <ul class="comp-list">
+                         <li>
+                             <div class="bullet-icon" style="color: var(--col-blue);">★</div>
+                             <span>No more money awkwardness</span>
+                         </li>
+                         <li>
+                             <div class="bullet-icon" style="color: var(--col-blue);">★</div>
+                             <span>Save 5+ hours a month</span>
+                         </li>
+                         <li>
+                             <div class="bullet-icon" style="color: var(--col-blue);">★</div>
+                             <span>Happy, paid-on-time nanny</span>
+                         </li>
+                         <li>
+                             <div class="bullet-icon" style="color: var(--col-blue);">★</div>
+                             <span>Focus on the kids</span>
+                         </li>
+                         <li>
+                             <div class="bullet-icon" style="color: var(--col-blue);">★</div>
+                             <span>Peace of mind</span>
+                         </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS (Cream + Divider) -->
+    <section id="how-it-works" class="section-padding section-divider">
+        <div class="container">
+            <div class="section-header">
+                <h2>How OurNanny works</h2>
+            </div>
+            <div class="grid grid-3 gap-md">
+                <div class="step-card">
+                    <div class="step-icon-lg" style="background-color: var(--col-blue); color: white;">
+                        <div class="step-number" style="background: var(--col-blue); border-color: var(--col-ink);">1</div>
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    </div>
+                    <h3 class="text-lg">Create your Pod</h3>
+                    <p class="text-sm" style="color: var(--col-slate); margin-top: 8px;">Invite the other family and your nanny. Set your base rates for 1-child and 2+ child hours.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon-lg" style="background-color: var(--col-teal); color: white;">
+                        <div class="step-number" style="background: var(--col-teal); border-color: var(--col-ink);">2</div>
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    </div>
+                    <h3 class="text-lg">Set the Schedule</h3>
+                    <p class="text-sm" style="color: var(--col-slate); margin-top: 8px;">Input who is hosting and when kids are attending. Make changes anytime from the app.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon-lg" style="background-color: var(--col-orange); color: var(--col-ink);">
+                        <div class="step-number" style="background: var(--col-orange); border-color: var(--col-ink);">3</div>
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    </div>
+                    <h3 class="text-lg">We Do the Math</h3>
+                    <p class="text-sm" style="color: var(--col-slate); margin-top: 8px;">We calculate overlap hours and split costs instantly. You get a Venmo-ready weekly total.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES (White + Divider) -->
+    <section id="features" class="section-padding bg-white section-divider">
+        <div class="container">
+            <div class="section-header">
+                <h2>Everything you need.</h2>
+            </div>
+            <div class="grid grid-3 gap-md">
+                <div class="feature-item">
+                    <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
+                    <h3 class="font-bold">Daily Timeline</h3>
+                    <p class="text-sm" style="color: var(--col-slate);">See exactly who is where, right now. Drop-off/pick-up times and hosting location at a glance.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon" style="background-color: var(--col-yellow);"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+                    <h3 class="font-bold">Location Management</h3>
+                    <p class="text-sm" style="color: var(--col-slate);">Hosting rotates? No problem. The schedule clearly shows whose house is home base for the day.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon" style="background-color: var(--col-teal-light);"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></div>
+                    <h3 class="font-bold">Family Status</h3>
+                    <p class="text-sm" style="color: var(--col-slate);">Mark a child as sick, on vacation, or absent with one tap. Everyone gets notified instantly.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon" style="background-color: var(--col-orange-light);"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
+                    <h3 class="font-bold">Smart Rate Tiers</h3>
+                    <p class="text-sm" style="color: var(--col-slate);">Automatically applies different hourly rates when 1 kid is present versus 2+ kids. Fair for parents, fair for nanny.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon" style="background-color: var(--col-blue); color: white;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></div>
+                    <h3 class="font-bold">Private Pod Feed</h3>
+                    <p class="text-sm" style="color: var(--col-slate);">A simple place for photos, updates on naps/meals, and notes. Keeps the important stuff out of WhatsApp.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+                    <h3 class="font-bold">Nanny View</h3>
+                    <p class="text-sm" style="color: var(--col-slate);">Your nanny gets their own login to view the schedule, track hours, and post updates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCREENSHOTS (Cream - No Divider needed before Roadmap) -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2>Take a look inside</h2>
+            </div>
+        </div>
+        <div class="scroll-container">
+            <div class="screenshot-card">
+                <!-- REPLACED FEATURE SCREENSHOT WITH LIVE CODE MOCKUP -->
+                <div class="screenshot-img-wrap" style="overflow: hidden;">
+                    <!-- Zommed in / cropped version -->
+                     <div class="app-screen" style="transform: scale(0.625); transform-origin: top left; width: 160%; height: 160%;">
+                        <div class="app-scroll">
+                            <div class="app-h1">Good morning, Sarah</div>
+                            
+                            <div class="app-card">
+                                <div class="sun-icon">☀️</div>
+                                <div class="app-text-sm">You are hosting today from <strong>9–4pm</strong> with <span class="t-teal">Cora</span> and <span class="t-purple">August</span> coming over.</div>
+                            </div>
+
+                            <div class="date-nav">
+                                <button class="date-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                                <div class="date-pill">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                    Today, Dec 5
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
+                                <button class="date-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                            </div>
+
+                            <div class="section-label">HOST LOCATION</div>
+                            <div class="loc-pill">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="color: #004D40;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                Smith Family
+                            </div>
+
+                            <div class="actions-grid">
+                                <div class="act-btn">
+                                    <div class="act-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></div>
+                                    <span class="act-label">Edit Time</span>
+                                </div>
+                                <div class="act-btn">
+                                    <div class="act-icon red"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="9" x2="15" y2="15"></line><line x1="15" y1="9" x2="9" y2="15"></line></svg></div>
+                                    <span class="act-label">Cancel</span>
+                                </div>
+                                <div class="act-btn">
+                                    <div class="act-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg></div>
+                                    <span class="act-label">Add Note</span>
+                                </div>
+                            </div>
+
+                            <div class="timeline-grid">
+                                <div class="tm-label">9 AM</div>
+                                <div class="tm-home"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></div>
+                                
+                                <div class="tm-label" style="grid-row: 3;">10 AM</div>
+                                <div class="tm-label" style="grid-row: 5;">11 AM</div>
+                                <div class="tm-label" style="grid-row: 7;">12 PM</div>
+                                <div class="tm-label" style="grid-row: 9;">1 PM</div>
+                                <div class="tm-label" style="grid-row: 11;">2 PM</div>
+
+                                <div class="ev-block ev-cora">
+                                    <div>Cora<br><span style="font-weight:400; font-size: 11px;">9:00 - 1:00</span></div>
+                                    <div class="check-badge">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                        Checked in
+                                    </div>
+                                </div>
+                                <div class="ev-block ev-august">
+                                    <div>August<br><span style="font-weight:400; font-size: 11px;">9:30 - 3:00</span></div>
+                                </div>
+                                <div class="ev-block ev-max">
+                                    <div>Max<br><span style="font-weight:400; font-size: 11px;">12:00 - 3:00</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="nav-bar">
+                             <div class="nav-item active">
+                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                 <span>Home</span>
+                             </div>
+                             <div class="nav-item">
+                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                 <span>Schedule</span>
+                             </div>
+                             <div class="nav-item">
+                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                 <span>Billing</span>
+                             </div>
+                             <div class="nav-item">
+                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                                 <span>Feed</span>
+                             </div>
+                             <div class="nav-item">
+                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                 <span>Pod</span>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screenshot-caption"><h4>Today's Timeline</h4><p>Visual schedule of where everyone is.</p></div>
+            </div>
+            
+            <!-- WEEKLY SCHEDULE -->
+            <div class="screenshot-card">
+                <div class="screenshot-img-wrap" style="overflow: hidden;">
+                     <div class="app-screen" style="transform: scale(0.625); transform-origin: top left; width: 160%; height: 160%; background: #FAFAFA;">
+                        <div class="app-scroll">
+                            <!-- Header -->
+                            <div class="sch-header">
+                                <div class="sch-icon-box">📅</div>
+                                <div style="font-size: 15px; color: #333; line-height: 1.4;">
+                                    You have <strong>5 nanny days</strong> this week across <span style="color:#26A69A; font-weight:600;">2 host locations</span>.
+                                </div>
+                            </div>
+
+                            <!-- Date Nav -->
+                            <div class="date-nav" style="margin-bottom: 24px;">
+                                <button class="date-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                                <div class="date-pill" style="padding: 12px 24px; font-size: 16px;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                    Dec 4 – Dec 10
+                                </div>
+                                <button class="date-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                            </div>
+
+                            <!-- List -->
+                            <!-- MON 4 -->
+                            <div class="sch-row">
+                                <div class="sch-date"><div class="sch-day-name">MON</div><div class="sch-day-num">4</div></div>
+                                <div class="sch-card teal">
+                                    <div class="sch-card-top">
+                                        <div class="sch-loc"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #004D40;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg> Smith Family</div>
+                                        <div class="sch-time bg-teal-light">9am – 4pm</div>
+                                    </div>
+                                    <div class="sch-attendees">
+                                        <div class="avatar-group">
+                                            <div class="avatar-circle av-teal">C</div>
+                                            <div class="avatar-circle av-purple">A</div>
+                                        </div>
+                                        <div class="sch-names">Cora, August</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- TUE 5 -->
+                            <div class="sch-row">
+                                <div class="sch-date"><div class="sch-day-name">TUE</div><div class="sch-day-num">5</div></div>
+                                <div class="sch-card teal">
+                                    <div class="sch-card-top">
+                                        <div class="sch-loc"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #004D40;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg> Smith Family</div>
+                                        <div class="sch-time bg-teal-light">9am – 4pm</div>
+                                    </div>
+                                    <div class="sch-attendees">
+                                        <div class="avatar-group">
+                                            <div class="avatar-circle av-teal">C</div>
+                                            <div class="avatar-circle av-purple">A</div>
+                                            <div class="avatar-circle av-pink">M</div>
+                                        </div>
+                                        <div class="sch-names">All kids</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- WED 6 -->
+                            <div class="sch-row">
+                                <div class="sch-date"><div class="sch-day-name">WED</div><div class="sch-day-num">6</div></div>
+                                <div class="sch-card purple">
+                                    <div class="sch-card-top">
+                                        <div class="sch-loc"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #4A148C;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg> Jones Family</div>
+                                        <div class="sch-time bg-purple-light">10am – 3pm</div>
+                                    </div>
+                                    <div class="sch-attendees">
+                                        <div class="avatar-group">
+                                            <div class="avatar-circle av-teal">C</div>
+                                            <div class="avatar-circle av-pink">M</div>
+                                        </div>
+                                        <div class="sch-names">Cora, Max</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- THU 7 -->
+                            <div class="sch-row">
+                                 <div class="sch-date"><div class="sch-day-name">THU</div><div class="sch-day-num">7</div></div>
+                                 <div class="sch-card purple">
+                                    <div class="sch-card-top">
+                                        <div class="sch-loc"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #4A148C;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg> Jones Family</div>
+                                        <div class="sch-time bg-purple-light">10am – 3pm</div>
+                                    </div>
+                                     <div class="sch-attendees">
+                                        <div class="avatar-group">
+                                            <div class="avatar-circle av-teal">C</div>
+                                            <div class="avatar-circle av-pink">M</div>
+                                        </div>
+                                        <div class="sch-names">Cora, Max</div>
+                                    </div>
+                                 </div>
+                            </div>
+
+                            <!-- FRI 8 -->
+                            <div class="sch-row">
+                                <div class="sch-date"><div class="sch-day-name">FRI</div><div class="sch-day-num">8</div></div>
+                                <div class="sch-card teal">
+                                    <div class="sch-card-top">
+                                        <div class="sch-loc"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #004D40;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg> Smith Family</div>
+                                        <div class="sch-time bg-teal-light">9am – 12pm</div>
+                                    </div>
+                                    <div class="sch-attendees">
+                                        <div class="avatar-group">
+                                            <div class="avatar-circle av-teal">C</div>
+                                            <div class="avatar-circle av-purple">A</div>
+                                        </div>
+                                        <div class="sch-names">Cora, August</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="screenshot-caption"><h4>Weekly Plan</h4><p>Plan hosting and attendance ahead.</p></div>
+            </div>
+            <div class="screenshot-card">
+                <div class="screenshot-img-wrap"><img src="/assets/screen-billing.png" alt="Billing"></div>
+                <div class="screenshot-caption"><h4>Auto-Calculated Costs</h4><p>Complex math made simple.</p></div>
+            </div>
+            <div class="screenshot-card">
+                <div class="screenshot-img-wrap"><img src="/assets/screen-pod.png" alt="Pod Management"></div>
+                <div class="screenshot-caption"><h4>Pod Settings</h4><p>Manage families, kids, and rates.</p></div>
+            </div>
+            <div class="screenshot-card">
+                <div class="screenshot-img-wrap"><img src="/assets/screen-feed.png" alt="Feed"></div>
+                <div class="screenshot-caption"><h4>Pod Feed</h4><p>Updates, photos, and daily notes.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MISSION / ROADMAP -->
+    <section class="section-padding roadmap-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="roadmap-badge">
+                   ✨ Future Roadmap
+                </div>
+                <h2 style="color: white;">Our Mission</h2>
+                <p style="color: white; opacity: 0.9;">Our mission is to make having a nanny accessible, affordable and convenient for everyone. Here is what comes next.</p>
+            </div>
+            <div class="grid grid-3 gap-md">
+                <!-- Card 1 -->
+                <div class="roadmap-card">
+                    <div class="roadmap-tag">Coming Soon</div>
+                    <h3>Backup Care</h3>
+                    <p>Access a pool of vetted local nannies when your nanny is sick or on vacation.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="roadmap-card">
+                    <div class="roadmap-tag">Coming Soon</div>
+                    <h3>Build a Nannyshare</h3>
+                    <p>Have a nanny and want to start a nannyshare pod? We'll help you find other families in your area who are a good fit.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="roadmap-card">
+                    <div class="roadmap-tag">Coming Soon</div>
+                    <h3>Compliance Tutorials</h3>
+                    <p>Learn how to navigate taxes, payroll, state compliance and more.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WAITLIST -->
+    <section id="waitlist" class="section-padding">
+        <div class="container">
+            <div class="waitlist-box">
+                <h2 style="font-size: 2.5rem; margin-bottom: 16px;">Get early access</h2>
+                <p style="color: var(--col-ink); max-width: 600px; margin: 0 auto; font-size: 1.125rem;">Join the waitlist for our Beta launch early 2026. Be the first to bring sanity to your nanny share.</p>
+                
+                <div style="margin-top: 32px; text-align: center;">
+                    <a href="https://form.typeform.com/to/s9pmWoZm" target="_blank" class="btn btn-primary">Join the waitlist</a>
+                    <p class="text-sm" style="color: var(--col-slate); margin-top: 12px; font-weight: 500;">Only 100 early access spots available</p>
+                </div>
+
+                <!-- Removed success message handling since form is gone, replaced with simple click interaction or link placeholder -->
+                
+                <p style="font-size: 0.75rem; color: var(--col-ink); opacity: 0.7; margin-top: 16px;">No spam. Product updates only.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section-padding" style="background-color: transparent;">
+        <div class="container" style="max-width: 800px;">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+            </div>
+            
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What is nanny sharing?
+                        <svg class="faq-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="faq-answer">
+                        Nanny sharing is when two or more families hire a single nanny to care for their children together, usually splitting the cost and rotating hosting duties between homes.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is this only for full-time shares?
+                        <svg class="faq-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="faq-answer">
+                        Not at all! OurNanny works great for part-time shares, after-school pods, or irregular schedules. You only bill for the hours scheduled.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How does billing work with different times?
+                        <svg class="faq-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="faq-answer">
+                        Our system calculates exact overlaps. If Family A is there 9-5 and Family B is there 9-3, the system applies the "2-child rate" for 9-3, and switches to the "1-child rate" for 3-5 automatically.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Do you handle payments?
+                        <svg class="faq-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="faq-answer">
+                        Currently, we handle the math. At the end of the week, we tell you exactly who owes what to whom (and the nanny), and you can settle up via Venmo, Zelle, or cash. Integrated payments are coming later.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What does the Beta include?
+                        <svg class="faq-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="faq-answer">
+                        The Beta includes full scheduling, location management, attendance tracking, and automatic cost reporting. It is free to use during the Beta period.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container text-center">
+            <div style="font-weight: 700; color: var(--col-ink); margin-bottom: 8px; font-family: var(--font-heading); font-size: 1.25rem;">OurNanny</div>
+            <p>&copy; 2025 OurNanny. All rights reserved.</p>
+            <div class="flex justify-center gap-sm" style="margin-top: 16px;">
+                <a href="#" class="btn-link text-sm">Privacy Policy</a>
+                <a href="#" class="btn-link text-sm">Terms of Service</a>
+                <a href="mailto:hello@ournanny.app" class="btn-link text-sm">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                
+                // Toggle active state
+                item.classList.toggle('active');
+            });
+        });
+        // Form handling script removed as form was replaced by button
+    </script>
+</body>
+</html>
