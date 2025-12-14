@@ -759,7 +759,7 @@
             display: none;
         }
         .screenshot-card {
-            flex: 0 0 340px;
+            flex: 0 0 300px; /* Reduced from 340px to allow peeking on mobile */
             scroll-snap-align: center;
             background: white;
             border-radius: var(--radius-lg);
@@ -871,11 +871,107 @@
 
         /* FOOTER */
         footer {
-            padding: var(--space-lg) 0;
+            padding: 64px 0 32px 0;
             border-top: var(--border-ink);
             color: var(--col-ink);
             font-size: 1rem;
             background: white;
+        }
+
+        .footer-top {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+
+        @media(min-width: 768px) {
+            .footer-top {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-start;
+            }
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+            max-width: 300px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--font-nav);
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--col-ink);
+        }
+        .footer-logo img {
+            height: 48px;
+            width: auto;
+        }
+
+        .footer-tagline {
+            font-size: 1.125rem;
+            color: var(--col-slate);
+            line-height: 1.5;
+        }
+
+        .footer-connect h4 {
+            font-size: 1.125rem;
+            margin-bottom: 16px;
+            font-family: var(--font-nav);
+            font-weight: 800;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--bg-cream);
+            color: var(--col-ink);
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .social-icon:hover {
+            background: var(--col-teal-light);
+            border-color: var(--col-teal);
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #e5e5e5;
+            padding-top: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            font-size: 0.9rem;
+            color: var(--col-slate);
+        }
+
+        @media(min-width: 600px) {
+            .footer-bottom {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        .heart {
+            color: #9b59b6;
+            display: inline-block;
         }
 
         .form-desktop-wrap {
@@ -1214,99 +1310,11 @@
 
             <div class="hero-visual">
                 <div class="phone-mockup phone-secondary">
-                    <img src="/assets/screen-billing.png" alt="Billing Screen" onerror="this.onerror=null;this.parentNode.style.background='#f0f0f0';">
+                    <img src="https://image2url.com/images/1765666392344-ca37f81a-9c28-4e78-9cf6-fb0d2f1ab59e.png" alt="Billing Screen">
                 </div>
                 <!-- REPLACED HERO IMAGE WITH LIVE CODE MOCKUP -->
                 <div class="phone-mockup phone-primary">
-                    <div class="app-screen" style="transform: scale(0.625); transform-origin: top left; width: 160%; height: 160%;">
-                        <div class="app-scroll">
-                            <div class="app-h1">Good morning, Sarah</div>
-                            
-                            <div class="app-card">
-                                <div class="sun-icon">☀️</div>
-                                <div class="app-text-sm">You are hosting today from <strong>9–4pm</strong> with <span class="t-teal">Cora</span> and <span class="t-purple">August</span> coming over.</div>
-                            </div>
-
-                            <div class="date-nav">
-                                <button class="date-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
-                                <div class="date-pill">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                    Today, Dec 5
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                </div>
-                                <button class="date-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
-                            </div>
-
-                            <div class="section-label">HOST LOCATION</div>
-                            <div class="loc-pill">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="color: #004D40;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                                Smith Family
-                            </div>
-
-                            <div class="actions-grid">
-                                <div class="act-btn">
-                                    <div class="act-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></div>
-                                    <span class="act-label">Edit Time</span>
-                                </div>
-                                <div class="act-btn">
-                                    <div class="act-icon red"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="9" x2="15" y2="15"></line><line x1="15" y1="9" x2="9" y2="15"></line></svg></div>
-                                    <span class="act-label">Cancel</span>
-                                </div>
-                                <div class="act-btn">
-                                    <div class="act-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg></div>
-                                    <span class="act-label">Add Note</span>
-                                </div>
-                            </div>
-
-                            <div class="timeline-grid">
-                                <div class="tm-label">9 AM</div>
-                                <div class="tm-home"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></div>
-                                
-                                <div class="tm-label" style="grid-row: 3;">10 AM</div>
-                                <div class="tm-label" style="grid-row: 5;">11 AM</div>
-                                <div class="tm-label" style="grid-row: 7;">12 PM</div>
-                                <div class="tm-label" style="grid-row: 9;">1 PM</div>
-                                <div class="tm-label" style="grid-row: 11;">2 PM</div>
-
-                                <div class="ev-block ev-cora">
-                                    <div>Cora<br><span style="font-weight:400; font-size: 11px;">9:00 - 1:00</span></div>
-                                    <div class="check-badge">
-                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                        Checked in
-                                    </div>
-                                </div>
-                                <div class="ev-block ev-august">
-                                    <div>August<br><span style="font-weight:400; font-size: 11px;">9:30 - 3:00</span></div>
-                                </div>
-                                <div class="ev-block ev-max">
-                                    <div>Max<br><span style="font-weight:400; font-size: 11px;">12:00 - 3:00</span></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="nav-bar">
-                             <div class="nav-item active">
-                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                                 <span>Home</span>
-                             </div>
-                             <div class="nav-item">
-                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                 <span>Schedule</span>
-                             </div>
-                             <div class="nav-item">
-                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-                                 <span>Billing</span>
-                             </div>
-                             <div class="nav-item">
-                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                                 <span>Feed</span>
-                             </div>
-                             <div class="nav-item">
-                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                                 <span>Pod</span>
-                             </div>
-                        </div>
-                    </div>
+                    <img src="https://image2url.com/images/1765666291875-3f2f5592-d3e6-40bc-b52b-9dfed81ef225.png" alt="Today's Timeline">
                 </div>
             </div>
         </div>
@@ -1499,103 +1507,39 @@
             </div>
         </div>
         <div class="scroll-container">
+            <!-- DAILY TIMELINE -->
             <div class="screenshot-card">
-                <!-- REPLACED FEATURE SCREENSHOT WITH LIVE CODE MOCKUP -->
-                <div class="screenshot-img-wrap" style="overflow: hidden;">
-                    <!-- Zommed in / cropped version -->
-                     <div class="app-screen" style="transform: scale(0.625); transform-origin: top left; width: 160%; height: 160%;">
-                        <div class="app-scroll">
-                            <div class="app-h1">Good morning, Sarah</div>
-                            
-                            <div class="app-card">
-                                <div class="sun-icon">☀️</div>
-                                <div class="app-text-sm">You are hosting today from <strong>9–4pm</strong> with <span class="t-teal">Cora</span> and <span class="t-purple">August</span> coming over.</div>
-                            </div>
-
-                            <div class="date-nav">
-                                <button class="date-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
-                                <div class="date-pill">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                    Today, Dec 5
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                </div>
-                                <button class="date-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
-                            </div>
-
-                            <div class="section-label">HOST LOCATION</div>
-                            <div class="loc-pill">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="color: #004D40;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                                Smith Family
-                            </div>
-
-                            <div class="actions-grid">
-                                <div class="act-btn">
-                                    <div class="act-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></div>
-                                    <span class="act-label">Edit Time</span>
-                                </div>
-                                <div class="act-btn">
-                                    <div class="act-icon red"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="9" x2="15" y2="15"></line><line x1="15" y1="9" x2="9" y2="15"></line></svg></div>
-                                    <span class="act-label">Cancel</span>
-                                </div>
-                                <div class="act-btn">
-                                    <div class="act-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg></div>
-                                    <span class="act-label">Add Note</span>
-                                </div>
-                            </div>
-
-                            <div class="timeline-grid">
-                                <div class="tm-label">9 AM</div>
-                                <div class="tm-home"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></div>
-                                
-                                <div class="tm-label" style="grid-row: 3;">10 AM</div>
-                                <div class="tm-label" style="grid-row: 5;">11 AM</div>
-                                <div class="tm-label" style="grid-row: 7;">12 PM</div>
-                                <div class="tm-label" style="grid-row: 9;">1 PM</div>
-                                <div class="tm-label" style="grid-row: 11;">2 PM</div>
-
-                                <div class="ev-block ev-cora">
-                                    <div>Cora<br><span style="font-weight:400; font-size: 11px;">9:00 - 1:00</span></div>
-                                    <div class="check-badge">
-                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                        Checked in
-                                    </div>
-                                </div>
-                                <div class="ev-block ev-august">
-                                    <div>August<br><span style="font-weight:400; font-size: 11px;">9:30 - 3:00</span></div>
-                                </div>
-                                <div class="ev-block ev-max">
-                                    <div>Max<br><span style="font-weight:400; font-size: 11px;">12:00 - 3:00</span></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="nav-bar">
-                             <div class="nav-item active">
-                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                                 <span>Home</span>
-                             </div>
-                             <div class="nav-item">
-                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                 <span>Schedule</span>
-                             </div>
-                             <div class="nav-item">
-                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-                                 <span>Billing</span>
-                             </div>
-                             <div class="nav-item">
-                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                                 <span>Feed</span>
-                             </div>
-                             <div class="nav-item">
-                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                                 <span>Pod</span>
-                             </div>
-                        </div>
-                    </div>
+                <div class="screenshot-img-wrap">
+                    <img src="https://image2url.com/images/1765666291875-3f2f5592-d3e6-40bc-b52b-9dfed81ef225.png" alt="Today's Timeline">
                 </div>
+                <div class="screenshot-caption"><h4>Today's Timeline</h4><p>Visual schedule of where everyone is.</p></div>
+            </div>
+            
+            <!-- WEEKLY SCHEDULE -->
+            <div class="screenshot-card">
+                <div class="screenshot-img-wrap">
+                    <img src="https://image2url.com/images/1765666326086-aa03300b-5616-45bc-9f6b-123b23ca2bd1.png" alt="Weekly Plan">
+                </div>
+                <div class="screenshot-caption"><h4>Weekly Plan</h4><p>Plan hosting and attendance ahead.</p></div>
+            </div>
+            
+            <!-- BILLING -->
+            <div class="screenshot-card">
+                <div class="screenshot-img-wrap">
+                    <img src="https://image2url.com/images/1765666392344-ca37f81a-9c28-4e78-9cf6-fb0d2f1ab59e.png" alt="Auto-Calculated Costs">
+                </div>
+                <div class="screenshot-caption"><h4>Auto-Calculated Costs</h4><p>Complex math made simple.</p></div>
+            </div>
+
+            <!-- FEED -->
+            <div class="screenshot-card">
+                <div class="screenshot-img-wrap">
+                    <img src="https://image2url.com/images/1765666351176-1e763940-dcc1-4750-a7d5-d7fee9954649.png" alt="Pod Feed">
+                </div>
+                <div class="screenshot-caption"><h4>Pod Feed</h4><p>Updates, photos, and daily notes.</p></div>
             </div>
         </div>
-    </header>
+    </section>
 
     <!-- MISSION / ROADMAP -->
     <section class="section-padding roadmap-section">
@@ -1708,13 +1652,35 @@
 
     <!-- FOOTER -->
     <footer>
-        <div class="container text-center">
-            <div style="font-weight: 700; color: var(--col-ink); margin-bottom: 8px; font-family: var(--font-heading); font-size: 1.25rem;">OurNanny</div>
-            <p>&copy; 2025 OurNanny. All rights reserved.</p>
-            <div class="flex justify-center gap-sm" style="margin-top: 16px;">
-                <a href="#" class="btn-link text-sm">Privacy Policy</a>
-                <a href="#" class="btn-link text-sm">Terms of Service</a>
-                <a href="mailto:hello@ournanny.app" class="btn-link text-sm">Contact</a>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="#" class="footer-logo">
+                        <img src="https://image2url.com/images/1765663724425-947cc2e7-3be6-4b70-9043-03bf0d69c146.png" alt="OurNanny">
+                        OurNanny
+                    </a>
+                    <p class="footer-tagline">Nanny shares, made simple.</p>
+                </div>
+                
+                <div class="footer-connect">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="mailto:ihartemis@gmail.com" class="social-icon" aria-label="Email">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        </a>
+                        <a href="https://x.com/ournannyapp" target="_blank" class="social-icon" aria-label="X">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                        </a>
+                        <a href="https://www.instagram.com/ournanny/" target="_blank" class="social-icon" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>&copy; 2025 OurNanny. All rights reserved.</div>
+                <div>Designed with <span class="heart">💜</span> in SLC.</div>
             </div>
         </div>
     </footer>
