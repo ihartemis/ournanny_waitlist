@@ -65,7 +65,11 @@
         We do <strong>not</strong> process payments and do <strong>not</strong> collect or store card or bank account
         numbers.</li>
       <li><strong>Basic usage & device data:</strong> limited technical information needed to run the app reliably (for
-        example, log and diagnostic data).</li>
+        example, crash reports, log and diagnostic data), and which screens and buttons are used.</li>
+      <li><strong>Masked usage recordings:</strong> to understand where the app is confusing, we record how the app is
+        used during a session. These recordings are <strong>masked</strong>: photos, anything you type, and the screens
+        that show children’s names, addresses, phone numbers, messages, or amounts are blacked out before anything leaves
+        your device. We can see that a button was tapped, not what it said.</li>
     </ul>
 
     <h2>2. How we use information</h2>
@@ -88,7 +92,8 @@
         location for a given day.</li>
       <li><strong>With service providers:</strong> we use trusted providers that process information on our behalf:
         <strong>Clerk</strong> (account sign-in and authentication), <strong>Convex</strong> (secure database and
-        backend), and <strong>Expo</strong> (app delivery and push notifications).</li>
+        backend), <strong>Expo</strong> (app delivery and push notifications), <strong>Sentry</strong> (crash
+        reports), and <strong>PostHog</strong> (usage analytics and the masked recordings described above).</li>
       <li><strong>For legal reasons:</strong> if required by law, or to protect rights and safety.</li>
       <li>We do <strong>not</strong> sell your personal information.</li>
     </ul>
