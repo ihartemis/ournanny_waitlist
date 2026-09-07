@@ -433,9 +433,11 @@
             session_recording: { maskAllInputs: true }
         });
         document.addEventListener('click', function (e) {
-            var a = e.target.closest && e.target.closest('a[data-cta]');
-            if (!a || !window.posthog) return;
-            posthog.capture('testflight_cta_clicked', { placement: a.getAttribute('data-cta'), href: a.href });
+            if (!window.posthog || !e.target.closest) return;
+            var a = e.target.closest('a[data-cta]');
+            if (a) posthog.capture('testflight_cta_clicked', { placement: a.getAttribute('data-cta'), href: a.href });
+            var w = e.target.closest('a[data-waitlist]');
+            if (w) posthog.capture('waitlist_cta_clicked', { placement: w.getAttribute('data-waitlist'), href: w.href });
         }, true);
     </script>
 </head>
@@ -462,7 +464,7 @@
             <a href="#features" class="mobile-link">Features</a>
             <a href="#faq" class="mobile-link">FAQ</a>
             <a data-cta="mobile_menu" href="https://testflight.apple.com/join/QGKTCfZF" target="_blank" rel="noopener" class="mobile-link">Get the iPhone beta →</a>
-            <a href="https://form.typeform.com/to/s9pmWoZm" target="_blank" class="mobile-link">Join the waitlist →</a>
+            <a data-waitlist="mobile_menu" href="https://form.typeform.com/to/s9pmWoZm" target="_blank" class="mobile-link">Join the waitlist →</a>
         </div>
     </header>
 
@@ -480,7 +482,7 @@
                     <a data-cta="hero" href="https://testflight.apple.com/join/QGKTCfZF" target="_blank" rel="noopener" class="btn btn-ink">Get the iPhone beta</a>
                     <a href="#how-it-works" class="btn btn-ghost">See how it works ↓</a>
                 </div>
-                <p class="hero-note rise rise-5">Free for early families · Private by default · Not on iPhone? <a href="https://form.typeform.com/to/s9pmWoZm" target="_blank">Join the waitlist</a></p>
+                <p class="hero-note rise rise-5">Free for early families · Private by default · Not on iPhone? <a data-waitlist="hero_note" href="https://form.typeform.com/to/s9pmWoZm" target="_blank">Join the waitlist</a></p>
             </div>
 
             <div class="hero-stage">
@@ -639,7 +641,7 @@
             <h2>Get <em>early</em> access.</h2>
             <p>OurNanny is live with our first families. The iPhone beta is open — install it from TestFlight in about a minute.</p>
             <a data-cta="closing_band" href="https://testflight.apple.com/join/QGKTCfZF" target="_blank" rel="noopener" class="btn btn-cream">Get the iPhone beta</a>
-            <p class="cta-fine">Free for early families · Not on iPhone? <a href="https://form.typeform.com/to/s9pmWoZm" target="_blank">Join the waitlist</a></p>
+            <p class="cta-fine">Free for early families · Not on iPhone? <a data-waitlist="closing_band" href="https://form.typeform.com/to/s9pmWoZm" target="_blank">Join the waitlist</a></p>
         </div>
     </section>
 
