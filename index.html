@@ -150,17 +150,56 @@
         .mobile-menu a:last-child { border: none; }
 
         /* ---------- hero ---------- */
-        .hero { position: relative; padding: 44px 0 0; overflow: visible; }
+        .hero { position: relative; padding: 22px 0 0; overflow: visible; }
         .hero-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 40px;
+            gap: 26px;
             align-items: center;
         }
+        /* Mobile: the payday card is the first thing on screen, copy under it (test 2 hero). */
+        /* (specificity bumped: the generic .hero h1 / .hero-sub / .blob rules come later in this sheet) */
+        @media (max-width: 899px) {
+            section.hero { padding: 12px 0 0; }
+            .hero .hero-grid { gap: 16px; }
+            .hero .hero-stage { order: -1; padding: 0; }
+            .hero .hero-copy h1 { font-size: 2.05rem; letter-spacing: -0.012em; line-height: 1.04; margin: 0 0 10px; }
+            .hero .hero-copy h1 .h1-line { display: inline; }
+            .hero .hero-copy .hero-sub { font-size: 1.02rem; margin-bottom: 14px; }
+            .hero .btn-hero { width: 100%; justify-content: center; }
+            .hero .hero-stage .blob { width: 92%; max-width: 320px; opacity: 0.4; }
+            .hero .hero-stage .doodle-spring { left: 0; bottom: -12px; }
+        }
+        .hero h1 .h1-line { display: block; }
         @media (min-width: 900px) {
             .hero { padding: 64px 0 0; }
             .hero-grid { grid-template-columns: 1.05fr 0.95fr; gap: 24px; }
         }
+        .hero-micro { margin: 12px 0 0; font-size: 0.86rem; font-weight: 600; color: var(--slate); line-height: 1.5; }
+        .hero-micro .tick { color: var(--teal-dark); font-weight: 800; }
+
+        /* the payday card — mirrors the app's billing hero card */
+        .bill {
+            position: relative; z-index: 1;
+            width: min(310px, 84vw);
+            background: #FFFFFF; color: #101828;
+            border: 2.5px solid var(--ink); border-radius: 22px;
+            padding: 18px 20px 16px;
+            box-shadow: 0 22px 44px -16px rgba(44, 24, 16, 0.4);
+            transform: rotate(-1.5deg);
+            text-align: center;
+        }
+        @media (min-width: 900px) { .bill { width: 360px; padding: 24px 26px 20px; } }
+        .bill .k { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #7C8896; }
+        .bill .amt { font-weight: 800; font-size: 2.6rem; line-height: 1.05; margin: 4px 0 2px; letter-spacing: -0.01em; }
+        @media (min-width: 900px) { .bill .amt { font-size: 3.1rem; } }
+        .bill .dots { display: flex; justify-content: center; align-items: center; gap: 4px; margin: 6px 0 4px; font-size: 0.8rem; color: #5A6472; font-weight: 500; }
+        .bill .dots i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); margin-right: 2px; }
+        .bill .dots span { margin-left: 6px; }
+        .bill .due { font-size: 0.86rem; color: #5A6472; font-weight: 500; margin-top: 6px; }
+        .bill .due b { color: #101828; }
+        .bill .save { font-size: 0.82rem; color: var(--teal-dark); font-weight: 700; margin-top: 5px; }
+        .bill .venmo { margin-top: 10px; background: #008CFF; color: #fff; border-radius: 12px; padding: 10px 0; font-weight: 800; font-size: 0.92rem; }
 
         .hero-copy { position: relative; z-index: 2; }
 
@@ -473,26 +512,27 @@
         <div class="wrap hero-grid">
             <div class="hero-copy">
                 <h1>
-                    <span class="rise rise-2" style="display:block">Having a nanny,</span>
-                    <span class="rise rise-3" style="display:block">minus the
-                    <span class="squiggle-word"><em>spreadsheet</em><svg viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 16 Q 40 6, 76 14 T 148 14 T 220 12 T 296 15"/></svg></span>.</span>
+                    <span class="h1-line rise rise-2">Nanny hours and pay,</span>
+                    <span class="h1-line rise rise-3">sorted every
+                    <span class="squiggle-word"><em>Friday</em><svg viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 16 Q 40 6, 76 14 T 148 14 T 220 12 T 296 15"/></svg></span>.</span>
                 </h1>
-                <p class="hero-sub rise rise-4">Schedules, hours, and who-owes-what, <strong>sorted automatically</strong>. For one family with a nanny, or a whole nanny share.</p>
+                <p class="hero-sub rise rise-4">Log the hours, see what you owe, Venmo one tap away. <strong>One family or a whole share.</strong></p>
                 <div class="hero-actions rise rise-5">
-                    <a data-cta="hero" href="https://testflight.apple.com/join/QGKTCfZF" target="_blank" rel="noopener" class="btn btn-ink">Get the iPhone beta</a>
-                    <a href="#how-it-works" class="btn btn-ghost">See how it works ↓</a>
+                    <a data-cta="hero" href="https://testflight.apple.com/join/QGKTCfZF" target="_blank" rel="noopener" class="btn btn-ink btn-hero">Get the iPhone beta</a>
                 </div>
-                <p class="hero-note rise rise-5">Free for early families · Private by default · Not on iPhone? <a data-waitlist="hero_note" href="https://form.typeform.com/to/s9pmWoZm" target="_blank">Join the waitlist</a></p>
+                <p class="hero-micro rise rise-5"><span class="tick">✓</span> Free during beta &nbsp;·&nbsp; <span class="tick">✓</span> iPhone &nbsp;·&nbsp; <span class="tick">✓</span> Built by a mom with a nanny share</p>
             </div>
 
             <div class="hero-stage">
                 <div class="blob" aria-hidden="true"></div>
-                <svg class="doodle doodle-star" width="54" height="54" viewBox="0 0 54 54" aria-hidden="true"><path d="M27 4 L31 22 L50 27 L31 32 L27 50 L23 32 L4 27 L23 22 Z" fill="#FFD93D" stroke="#2C1810" stroke-width="2.5" stroke-linejoin="round"/></svg>
                 <svg class="doodle doodle-spring" width="64" height="40" viewBox="0 0 64 40" aria-hidden="true"><path d="M4 34 C 14 6, 22 6, 26 20 C 30 34, 38 34, 42 20 C 46 6, 54 6, 60 16" fill="none" stroke="#FF6B6B" stroke-width="4" stroke-linecap="round"/></svg>
-                <div class="phone">
-                    <video autoplay muted loop playsinline poster="/assets/screen-timeline.png" id="demo-video">
-                        <source src="/assets/demo.mp4" type="video/mp4">
-                    </video>
+                <div class="bill rise rise-1" aria-label="Example payday card: $560 due today for 40 hours, the share saved you about $240 this week">
+                    <div class="k">☀️ Payday · Fri Dec 5</div>
+                    <div class="amt">$560.00</div>
+                    <div class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><span>5 of 5 sessions · 40 hrs</span></div>
+                    <div class="due">Due <b>today</b>, end of day — Rosa’s payday</div>
+                    <div class="save">🌱 The share saved you ~$240 this week</div>
+                    <div class="venmo" aria-hidden="true">Pay $560.00 in Venmo</div>
                 </div>
             </div>
         </div>
