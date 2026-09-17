@@ -458,6 +458,28 @@
             *, *::before, *::after { animation: none !important; transition: none !important; }
             .rise, .reveal { opacity: 1; transform: none; }
         }
+
+        /* ---------- TestFlight interstitial (2026-09-17) ----------
+           "beta" is gone from every button. The install still goes through
+           TestFlight, so the ask moves to AFTER the tap: the button opens this
+           sheet, the sheet says what's needed, Continue goes to TestFlight.
+           Splits one muddy number (visit→CTA) into two readable ones:
+           did the button interest them, and did the TestFlight ask stop them. */
+        .tf-backdrop { position: fixed; inset: 0; background: rgba(44, 24, 16, 0.55); z-index: 90; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .tf-backdrop.open { display: flex; }
+        .tf-sheet {
+            background: var(--cream-soft); color: var(--ink);
+            border: 2.5px solid var(--ink); border-radius: 22px;
+            padding: 28px 24px 22px; max-width: 420px; width: 100%;
+            box-shadow: 0 30px 60px -18px rgba(44, 24, 16, 0.5);
+            text-align: center;
+        }
+        .tf-sheet h3 { font-family: var(--font-display); font-weight: 900; font-size: 1.6rem; margin: 0 0 10px; }
+        .tf-sheet p { color: var(--slate); margin: 0 0 20px; line-height: 1.5; }
+        .tf-sheet .btn { width: 100%; justify-content: center; }
+        .tf-sheet .tf-fine { margin: 14px 0 0; font-size: 0.86rem; font-weight: 600; color: var(--slate); }
+        .tf-sheet .tf-fine a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+        .tf-close { margin-top: 10px; background: none; border: 0; color: var(--slate); font: inherit; font-weight: 700; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
     </style>
     <!-- PostHog (same project as the app): page views + UTMs, click autocapture, web replay.
          Public project key by design. testflight_cta_clicked is fired below with the placement. -->
@@ -471,13 +493,42 @@
             autocapture: true,
             session_recording: { maskAllInputs: true }
         });
+        // Interstitial state — which button opened it, so the second-stage event
+        // can be attributed to the same placement as the first.
+        var tfPlacement = null;
+        function tfOpen(placement) {
+            tfPlacement = placement;
+            var b = document.getElementById('tf-backdrop');
+            b.hidden = false; b.classList.add('open');
+            var c = document.getElementById('tf-continue'); if (c) c.focus();
+        }
+        function tfClose() {
+            var b = document.getElementById('tf-backdrop');
+            b.classList.remove('open'); b.hidden = true;
+        }
         document.addEventListener('click', function (e) {
-            if (!window.posthog || !e.target.closest) return;
+            if (!e.target.closest) return;
             var a = e.target.closest('a[data-cta]');
-            if (a) posthog.capture('testflight_cta_clicked', { placement: a.getAttribute('data-cta'), href: a.href });
+            if (a) {
+                // Stage 1 — unchanged event name so visit→CTA stays comparable to tests 1 and 2.
+                if (window.posthog) posthog.capture('testflight_cta_clicked', { placement: a.getAttribute('data-cta'), href: a.href });
+                e.preventDefault();
+                tfOpen(a.getAttribute('data-cta'));
+                return;
+            }
+            var cont = e.target.closest('a[data-cta-continue]');
+            if (cont) {
+                // Stage 2 — did the TestFlight ask stop them? Attributed to the opening placement.
+                if (window.posthog) posthog.capture('testflight_continue_clicked', { placement: tfPlacement, href: cont.href });
+                tfClose();
+                return; // let the link open TestFlight
+            }
+            if (e.target.id === 'tf-close' || e.target.id === 'tf-backdrop') { e.preventDefault(); tfClose(); return; }
+            if (!window.posthog) return;
             var w = e.target.closest('a[data-waitlist]');
             if (w) posthog.capture('waitlist_cta_clicked', { placement: w.getAttribute('data-waitlist'), href: w.href });
         }, true);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') tfClose(); });
     </script>
 </head>
 <body>
@@ -492,7 +543,7 @@
                 <a href="#how-it-works">How it works</a>
                 <a href="#features">Features</a>
                 <a href="#faq">FAQ</a>
-                <a data-cta="nav" href="https://testflight.apple.com/join/QGKTCfZF" target="_blank" rel="noopener" class="btn btn-ink">Get the iPhone beta</a>
+                <a data-cta="nav" href="https://testflight.apple.com/join/QGKTCfZF" target="_blank" rel="noopener" class="btn btn-ink">Get the app</a>
             </div>
             <button class="hamburger" id="hamburger-btn" aria-label="Menu">
                 <span></span><span></span><span></span>
@@ -502,7 +553,7 @@
             <a href="#how-it-works" class="mobile-link">How it works</a>
             <a href="#features" class="mobile-link">Features</a>
             <a href="#faq" class="mobile-link">FAQ</a>
-            <a data-cta="mobile_menu" href="https://testflight.apple.com/join/QGKTCfZF" target="_blank" rel="noopener" class="mobile-link">Get the iPhone beta →</a>
+            <a data-cta="mobile_menu" href="https://testflight.apple.com/join/QGKTCfZF" target="_blank" rel="noopener" class="mobile-link">Get the app →</a>
             <a data-waitlist="mobile_menu" href="https://form.typeform.com/to/s9pmWoZm" target="_blank" class="mobile-link">Join the waitlist →</a>
         </div>
     </header>
@@ -518,9 +569,9 @@
                 </h1>
                 <p class="hero-sub rise rise-4">Log the hours, see what you owe, Venmo one tap away. <strong>One family or a whole share.</strong></p>
                 <div class="hero-actions rise rise-5">
-                    <a data-cta="hero" href="https://testflight.apple.com/join/QGKTCfZF" target="_blank" rel="noopener" class="btn btn-ink btn-hero">Get the iPhone beta</a>
+                    <a data-cta="hero" href="https://testflight.apple.com/join/QGKTCfZF" target="_blank" rel="noopener" class="btn btn-ink btn-hero">Get the app</a>
                 </div>
-                <p class="hero-micro rise rise-5"><span class="tick">✓</span> Free during beta &nbsp;·&nbsp; <span class="tick">✓</span> iPhone &nbsp;·&nbsp; <span class="tick">✓</span> Built by a mom with a nanny share</p>
+                <p class="hero-micro rise rise-5"><span class="tick">✓</span> Free for early families &nbsp;·&nbsp; <span class="tick">✓</span> iPhone &nbsp;·&nbsp; <span class="tick">✓</span> Built by a mom with a nanny share</p>
             </div>
 
             <div class="hero-stage">
@@ -679,8 +730,7 @@
     <section id="waitlist" class="cta-band">
         <div class="wrap reveal">
             <h2>Get <em>early</em> access.</h2>
-            <p>OurNanny is live with our first families. The iPhone beta is open — install it from TestFlight in about a minute.</p>
-            <a data-cta="closing_band" href="https://testflight.apple.com/join/QGKTCfZF" target="_blank" rel="noopener" class="btn btn-cream">Get the iPhone beta</a>
+            <a data-cta="closing_band" href="https://testflight.apple.com/join/QGKTCfZF" target="_blank" rel="noopener" class="btn btn-cream">Get the app</a>
             <p class="cta-fine">Free for early families · Not on iPhone? <a data-waitlist="closing_band" href="https://form.typeform.com/to/s9pmWoZm" target="_blank">Join the waitlist</a></p>
         </div>
     </section>
@@ -800,5 +850,16 @@
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
+
+    <!-- TestFlight interstitial — opened by every data-cta button -->
+    <div class="tf-backdrop" id="tf-backdrop" role="dialog" aria-modal="true" aria-labelledby="tf-title" hidden>
+        <div class="tf-sheet">
+            <h3 id="tf-title">One quick thing</h3>
+            <p>You'll need to install TestFlight first to get access to the OurNanny app.</p>
+            <a id="tf-continue" data-cta-continue href="https://testflight.apple.com/join/QGKTCfZF" target="_blank" rel="noopener" class="btn btn-ink">Continue to TestFlight</a>
+            <p class="tf-fine">Not on iPhone? <a data-waitlist="interstitial" href="https://form.typeform.com/to/s9pmWoZm" target="_blank" rel="noopener">Join the waitlist</a></p>
+            <button type="button" class="tf-close" id="tf-close">Not now</button>
+        </div>
+    </div>
 </body>
 </html>
