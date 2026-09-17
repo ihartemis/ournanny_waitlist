@@ -501,10 +501,19 @@
             var b = document.getElementById('tf-backdrop');
             b.hidden = false; b.classList.add('open');
             var c = document.getElementById('tf-continue'); if (c) c.focus();
+            // Explicit "seen" event, so the sheet's own funnel reads seen → continue | dismissed
+            // without having to infer "seen" from the button tap.
+            if (window.posthog) posthog.capture('testflight_interstitial_seen', { placement: placement });
         }
-        function tfClose() {
+        // method: 'continue' | 'not_now' | 'backdrop' | 'escape' — the dismissals are the
+        // "saw the TestFlight ask and walked away" half of the question.
+        function tfClose(method) {
             var b = document.getElementById('tf-backdrop');
+            if (b.hidden) return; // already closed — don't double-fire on Escape spam
             b.classList.remove('open'); b.hidden = true;
+            if (method && method !== 'continue' && window.posthog) {
+                posthog.capture('testflight_interstitial_dismissed', { placement: tfPlacement, method: method });
+            }
         }
         document.addEventListener('click', function (e) {
             if (!e.target.closest) return;
@@ -520,15 +529,16 @@
             if (cont) {
                 // Stage 2 — did the TestFlight ask stop them? Attributed to the opening placement.
                 if (window.posthog) posthog.capture('testflight_continue_clicked', { placement: tfPlacement, href: cont.href });
-                tfClose();
+                tfClose('continue');
                 return; // let the link open TestFlight
             }
-            if (e.target.id === 'tf-close' || e.target.id === 'tf-backdrop') { e.preventDefault(); tfClose(); return; }
+            if (e.target.id === 'tf-close') { e.preventDefault(); tfClose('not_now'); return; }
+            if (e.target.id === 'tf-backdrop') { e.preventDefault(); tfClose('backdrop'); return; }
             if (!window.posthog) return;
             var w = e.target.closest('a[data-waitlist]');
             if (w) posthog.capture('waitlist_cta_clicked', { placement: w.getAttribute('data-waitlist'), href: w.href });
         }, true);
-        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') tfClose(); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') tfClose('escape'); });
     </script>
 </head>
 <body>
