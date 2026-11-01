@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
             terms: path.resolve(__dirname, 'terms.html'),
             privacy: path.resolve(__dirname, 'privacy.html'),
             'nanny-share-pay': path.resolve(__dirname, 'nanny-share-pay.html'),
+            about: path.resolve(__dirname, 'about.html'),
           },
         },
       },

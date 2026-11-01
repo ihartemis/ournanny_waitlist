@@ -11,8 +11,8 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="OurNanny">
     <meta property="og:url" content="https://www.ournanny.app/">
-    <meta property="og:title" content="OurNanny: nanny hours and pay, sorted every Friday">
-    <meta property="og:description" content="Track nanny hours, split pay fairly in a nanny share, and see who owes what each payday. For one family with a nanny, or a whole share.">
+    <meta property="og:title" content="OurNanny">
+    <meta property="og:description" content="Nanny hours and pay, sorted every Friday.">
     <!-- public/og-image.png is copied verbatim by Vite. The old /assets/screen-timeline.png
          URL 404'd in production because Vite hashes everything under /assets. -->
     <meta property="og:image" content="https://www.ournanny.app/og-image.png">
@@ -605,16 +605,6 @@
         .faq-a a, .faq-more a { color: var(--teal-dark); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
         .faq-more { margin-top: 28px; color: var(--slate); max-width: 62ch; }
 
-        /* what it is */
-        .what-band { background: var(--cream-soft); border-bottom: 2.5px solid var(--ink); }
-        .what-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: 40px; align-items: start; }
-        .what-lede { font-size: 1.15rem; color: var(--ink); max-width: 60ch; }
-        .what-facts { margin-top: 22px; display: grid; gap: 10px; }
-        .what-facts div { display: grid; grid-template-columns: 96px 1fr; gap: 12px; border-top: 1.5px solid rgba(44,24,16,0.18); padding-top: 10px; }
-        .what-facts dt { font-weight: 800; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--teal-dark); padding-top: 3px; }
-        .what-facts dd { color: var(--slate); }
-        @media (max-width: 760px) { .what-grid { grid-template-columns: 1fr; gap: 20px; } .what-facts div { grid-template-columns: 82px 1fr; } }
-
         /* footer */
         footer { border-top: 2.5px solid var(--ink); padding: 46px 0 34px; }
         .foot-grid { display: flex; flex-wrap: wrap; gap: 26px; justify-content: space-between; align-items: flex-start; }
@@ -803,27 +793,6 @@
                 <span>no more group-chat archaeology</span>
                 <span>no more "wait, whose house today?"</span>
                 <span>no more napkin math</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- WHAT IT IS — plain facts a person or an AI assistant can quote as-is.
-         Keep in sync with public/llms.txt and the TestFlight description. -->
-    <section id="what-it-is" class="what-band">
-        <div class="wrap what-grid">
-            <div class="reveal">
-                <div class="kicker" style="color: var(--teal-dark);">What OurNanny is</div>
-                <h2 class="section-title">An app for families with a nanny, and for nanny shares.</h2>
-            </div>
-            <div class="reveal">
-                <p class="what-lede">OurNanny is an iPhone app for US families who employ a nanny, on their own or in a nanny share with other families. It keeps one schedule everyone sees, tracks each child's hours, splits pay fairly when schedules differ, and tells each family what it owes the nanny on payday.</p>
-                <dl class="what-facts">
-                    <div><dt>For</dt><dd>Parents who employ a nanny, and the nanny (free login)</dd></div>
-                    <div><dt>Does</dt><dd>Schedule, hosting, hours, pay split, payday totals, Venmo</dd></div>
-                    <div><dt>Platform</dt><dd>iPhone today, Android waitlist</dd></div>
-                    <div><dt>Price</dt><dd>Free for early families</dd></div>
-                    <div><dt>Made by</dt><dd>A mom running a nanny share in Salt Lake City</dd></div>
-                </dl>
             </div>
         </div>
     </section>
@@ -1042,7 +1011,7 @@
             </div>
             <div class="foot-bottom">
                 <div>© 2026 OurNanny · Made with 💛 in Salt Lake City</div>
-                <div><a href="/nanny-share-pay">Nanny share pay guide</a> &nbsp;·&nbsp; <a href="/terms">Terms</a> &nbsp;·&nbsp; <a href="/privacy">Privacy</a></div>
+                <div><a href="/about">About</a> &nbsp;·&nbsp; <a href="/nanny-share-pay">Nanny share pay guide</a> &nbsp;·&nbsp; <a href="/terms">Terms</a> &nbsp;·&nbsp; <a href="/privacy">Privacy</a></div>
             </div>
         </div>
     </footer>

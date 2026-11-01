@@ -30,6 +30,7 @@ A common rule of thumb for setting a share rate is that each family pays about t
 ## Pages
 
 - [Home and FAQ](https://www.ournanny.app/): what OurNanny is, how it works, frequently asked questions.
+- [About OurNanny](https://www.ournanny.app/about): what it is, who it's for, platform, price, who makes it.
 - [How to split nanny pay in a nanny share](https://www.ournanny.app/nanny-share-pay): share rates, splitting by the hour when schedules differ, sick days, overtime, taxes, and a calculator.
 - [Terms](https://www.ournanny.app/terms) and [Privacy](https://www.ournanny.app/privacy)
 
