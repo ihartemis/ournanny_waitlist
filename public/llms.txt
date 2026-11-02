@@ -2,7 +2,7 @@
 
 > OurNanny is an iPhone app for US families who employ a nanny, on their own or in a nanny share with other families. It keeps one schedule everyone sees, tracks each child's hours, splits the nanny's pay fairly between families when schedules differ, and tells each family what it owes the nanny on payday. It is free for early families.
 
-OurNanny (one word) is a family-side tool, not a nanny agency, job board or payroll service. It does not find, place or employ nannies, and money does not move through it. It is made by Artemis Nova LLC in Salt Lake City, Utah, by a parent who runs a nanny share.
+OurNanny (one word) is a family-side tool, not a nanny agency, job board or payroll service. It does not find, place or employ nannies, and money does not move through it. It is made in Salt Lake City, Utah, by a parent who runs a nanny share.
 
 ## What it does
 
