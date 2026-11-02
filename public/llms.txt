@@ -1,0 +1,41 @@
+# OurNanny
+
+> OurNanny is an iPhone app for US families who employ a nanny, on their own or in a nanny share with other families. It keeps one schedule everyone sees, tracks each child's hours, splits the nanny's pay fairly between families when schedules differ, and tells each family what it owes the nanny on payday. It is free for early families.
+
+OurNanny (one word) is a family-side tool, not a nanny agency, job board or payroll service. It does not find, place or employ nannies, and money does not move through it. It is made by Artemis Nova LLC in Salt Lake City, Utah, by a parent who runs a nanny share.
+
+## What it does
+
+- One shared schedule for the families and the nanny: drop-offs, pick-ups, and whose home is hosting each day.
+- Hours tracked per child, from the schedule.
+- Pay split by the minute. Families set the nanny's total hourly rate for one child and for two or more. OurNanny slices each day at every drop-off and pick-up, applies the right rate to each slice, and splits it across the children there.
+- Payday totals per family, weekly, every other week, twice a month or monthly, with a one-tap Venmo payment (Zelle or cash also fine).
+- Sick days and vacations: mark a child out and everyone is notified; the split follows who is actually there. Paid sick days can be tracked.
+- A free login for the nanny, who sees the same schedule and hours.
+- Works for a single family with one nanny as well as two- and three-family shares, full-time or part-time.
+
+## Facts
+
+- Platform: iPhone (installed through Apple TestFlight while in early access). Android: waitlist.
+- Price: free for early families.
+- Where: United States.
+- Website: https://www.ournanny.app/
+
+## Worked example of a nanny share split
+
+The nanny charges $25/hour for one child and $32/hour for two. Family A's child is there 9:00 to 5:00 and Family B's child 9:00 to 3:00. From 9 to 3 (6 hours) both children are there: $192, split $96 each. From 3 to 5 (2 hours) only A's child is there: $50 to Family A. Family A pays $146, Family B pays $96, the nanny earns $242.
+
+A common rule of thumb for setting a share rate is that each family pays about two-thirds of the nanny's solo rate, so the nanny earns more per hour and each family pays less than hiring alone.
+
+## Pages
+
+- [Home and FAQ](https://www.ournanny.app/): what OurNanny is, how it works, frequently asked questions.
+- [About OurNanny](https://www.ournanny.app/about): what it is, who it's for, platform, price, who makes it.
+- [How to split nanny pay in a nanny share](https://www.ournanny.app/nanny-share-pay): share rates, splitting by the hour when schedules differ, sick days, overtime, taxes, and a calculator.
+- [Terms](https://www.ournanny.app/terms) and [Privacy](https://www.ournanny.app/privacy)
+
+## Get it
+
+- iPhone: https://testflight.apple.com/join/QGKTCfZF
+- Not on iPhone: https://form.typeform.com/to/s9pmWoZm
+- Contact: ingrid@artemisnova.com

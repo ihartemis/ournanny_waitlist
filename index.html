@@ -3,18 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OurNanny | Having a nanny, minus the spreadsheet</title>
-    <meta name="description" content="Schedules, hours, and who-owes-what, sorted automatically. For one family with a nanny, or a whole nanny share.">
+    <title>OurNanny | Nanny share app for hours and pay</title>
+    <meta name="description" content="Track nanny hours and split pay fairly between families. For one family with a nanny or a whole nanny share. Free on iPhone.">
+    <link rel="canonical" href="https://www.ournanny.app/">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://ournanny.app">
-    <meta property="og:title" content="OurNanny - Having a nanny, minus the spreadsheet">
-    <meta property="og:description" content="Schedules, hours, and who-owes-what, sorted automatically. For one family with a nanny, or a whole nanny share.">
-    <meta property="og:image" content="https://ournanny.app/assets/screen-timeline.png">
+    <meta property="og:site_name" content="OurNanny">
+    <meta property="og:url" content="https://www.ournanny.app/">
+    <meta property="og:title" content="OurNanny: nanny hours and pay, sorted">
+    <meta property="og:description" content="For one family with a nanny, or a whole nanny share. Free on iPhone.">
+    <!-- public/og-image.png is copied verbatim by Vite. The old /assets/screen-timeline.png
+         URL 404'd in production because Vite hashes everything under /assets. -->
+    <meta property="og:image" content="https://www.ournanny.app/og-image.png">
+    <meta property="og:image:alt" content="OurNanny's Today timeline: who is with the nanny, where, and when">
     <meta name="twitter:card" content="summary_large_image">
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="OurNanny, in plain text for AI assistants">
 
     <link rel="icon" type="image/png" href="/assets/logo.png">
+
+    <!-- Structured data: who we are, what the app is, and the FAQ below (generated from the same text). -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.ournanny.app/#org",
+      "name": "OurNanny",
+      "url": "https://www.ournanny.app/",
+      "logo": "https://www.ournanny.app/og-image.png",
+      "parentOrganization": {
+        "@type": "Organization",
+        "name": "Artemis Nova LLC"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Ingrid Hartman",
+        "url": "https://ingridhartman.com"
+      },
+      "sameAs": [
+        "https://www.instagram.com/ournanny/",
+        "https://x.com/ournannyapp"
+      ],
+      "email": "ingrid@artemisnova.com"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.ournanny.app/#site",
+      "name": "OurNanny",
+      "url": "https://www.ournanny.app/",
+      "publisher": {
+        "@id": "https://www.ournanny.app/#org"
+      }
+    },
+    {
+      "@type": "MobileApplication",
+      "@id": "https://www.ournanny.app/#app",
+      "name": "OurNanny",
+      "operatingSystem": "iOS",
+      "applicationCategory": "LifestyleApplication",
+      "description": "OurNanny is an iPhone app for families who employ a nanny, on their own or in a nanny share. It keeps one shared schedule, tracks the hours each child is with the nanny, splits the cost fairly between families when schedules differ, and shows who owes the nanny what on payday. It is free for early families.",
+      "featureList": [
+        "Shared nanny schedule and hosting rotation",
+        "Hours tracked per child",
+        "Pay split between families by the minute, with one-child and two-plus-child rates",
+        "Payday totals weekly, every other week, twice a month or monthly",
+        "Sick days and vacations",
+        "One-tap Venmo payment",
+        "Free login for the nanny"
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "Free for early families"
+      },
+      "installUrl": "https://testflight.apple.com/join/QGKTCfZF",
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "US families who employ a nanny, including nanny shares"
+      },
+      "publisher": {
+        "@id": "https://www.ournanny.app/#org"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.ournanny.app/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is OurNanny?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "OurNanny is an iPhone app for families who employ a nanny, on their own or in a nanny share. It keeps one shared schedule, tracks the hours each child is with the nanny, splits the cost fairly between families when schedules differ, and shows who owes the nanny what on payday. It is free for early families."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a nanny share?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A nanny share is when two or more families hire one nanny to care for their children together. The families split the cost, and hosting usually rotates between homes or stays at one house. Each family pays less than hiring a nanny alone, and the nanny usually earns more per hour than in a single-family job."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you split nanny pay in a nanny share?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A common rule of thumb is that each family pays about two-thirds of the nanny's solo hourly rate. If the nanny would charge $24 an hour for one child, each of two families pays about $16, and the nanny earns $32 an hour. When schedules differ, split by the hour: shared hours at the share rate, and hours with only one child at the solo rate, paid by that family. Our nanny share pay guide has worked examples and a calculator."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does OurNanny split pay when our schedules don't line up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You set the nanny's total hourly rate for one child and for two or more. OurNanny slices each day at every drop-off and pick-up, applies the right rate to each slice, and splits it across the children there. Example: at $25 an hour for one child and $32 for two, if Family A is there 9 to 5 and Family B 9 to 3, B pays $96, A pays $146, and the nanny earns $242."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I work out what I owe my nanny each week?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Multiply the hours your child was with the nanny by the rate that applied in each stretch, then add any agreed extras like paid sick days or a tip. OurNanny does this for you from the schedule and shows each family's total on payday, weekly, every other week, twice a month or monthly, with a one-tap Venmo payment."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a nanny share to use OurNanny?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. One family with one nanny gets the same schedule, hours tracking, and payday totals. If you ever add a second family, the cost-splitting math is already built in."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this only for full-time shares?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. OurNanny works for part-time shares, after-school pods, and irregular schedules. You only pay for the hours on the schedule."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens when a child is sick or on vacation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Mark the child sick or away in one tap and everyone in the pod, including the nanny, is notified. The schedule and the pay split update to match who is actually there. If your agreement includes paid sick days, OurNanny keeps track of those too."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does OurNanny handle payments?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "OurNanny does the math and tells each family exactly what it owes the nanny. You pay through Venmo with one tap, or with Zelle or cash. Money doesn't move through OurNanny."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does OurNanny run payroll or file nanny taxes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. OurNanny tracks hours and works out who owes what. If you pay your nanny through a payroll service, use OurNanny's totals as the hours and amounts you give it. In a nanny share, each family is usually its own employer, so each family typically runs its own payroll."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is OurNanny a nanny agency?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. OurNanny doesn't find, place, or employ nannies. It's software for families who already have a nanny, or are setting up a share, to run the week together. Helping families find share partners is on the roadmap."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is OurNanny on Android, and what does it cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "OurNanny is on iPhone today and free for early families. Android is on the way. If you're not on iPhone, join the waitlist and we'll tell you when it's ready."
+          }
+        }
+      ]
+    }
+  ]
+}
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -423,7 +601,9 @@
         .faq-item.open .ind { transform: rotate(45deg); }
         .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s var(--ease-out); color: var(--slate); }
         .faq-a p { padding: 0 0 22px; max-width: 62ch; }
-        .faq-item.open .faq-a { max-height: 320px; }
+        .faq-item.open .faq-a { max-height: 640px; }
+        .faq-a a, .faq-more a { color: var(--teal-dark); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+        .faq-more { margin-top: 28px; color: var(--slate); max-width: 62ch; }
 
         /* footer */
         footer { border-top: 2.5px solid var(--ink); padding: 46px 0 34px; }
@@ -754,30 +934,55 @@
             </div>
             <div class="faq-list">
                 <div class="faq-item reveal">
-                    <button class="faq-q">What is nanny sharing? <span class="ind">+</span></button>
-                    <div class="faq-a"><p>Nanny sharing is when two or more families hire a single nanny to care for their children together, usually splitting the cost and rotating hosting duties between homes.</p></div>
+                    <button class="faq-q">What is OurNanny? <span class="ind">+</span></button>
+                    <div class="faq-a"><p>OurNanny is an iPhone app for families who employ a nanny, on their own or in a nanny share. It keeps one shared schedule, tracks the hours each child is with the nanny, splits the cost fairly between families when schedules differ, and shows who owes the nanny what on payday. It is free for early families.</p></div>
+                </div>
+                <div class="faq-item reveal">
+                    <button class="faq-q">What is a nanny share? <span class="ind">+</span></button>
+                    <div class="faq-a"><p>A nanny share is when two or more families hire one nanny to care for their children together. The families split the cost, and hosting usually rotates between homes or stays at one house. Each family pays less than hiring a nanny alone, and the nanny usually earns more per hour than in a single-family job.</p></div>
+                </div>
+                <div class="faq-item reveal">
+                    <button class="faq-q">How do you split nanny pay in a nanny share? <span class="ind">+</span></button>
+                    <div class="faq-a"><p>A common rule of thumb is that each family pays about two-thirds of the nanny's solo hourly rate. If the nanny would charge $24 an hour for one child, each of two families pays about $16, and the nanny earns $32 an hour. When schedules differ, split by the hour: shared hours at the share rate, and hours with only one child at the solo rate, paid by that family. Our <a href="/nanny-share-pay">nanny share pay guide</a> has worked examples and a calculator.</p></div>
+                </div>
+                <div class="faq-item reveal">
+                    <button class="faq-q">How does OurNanny split pay when our schedules don't line up? <span class="ind">+</span></button>
+                    <div class="faq-a"><p>You set the nanny's total hourly rate for one child and for two or more. OurNanny slices each day at every drop-off and pick-up, applies the right rate to each slice, and splits it across the children there. Example: at $25 an hour for one child and $32 for two, if Family A is there 9 to 5 and Family B 9 to 3, B pays $96, A pays $146, and the nanny earns $242.</p></div>
+                </div>
+                <div class="faq-item reveal">
+                    <button class="faq-q">How do I work out what I owe my nanny each week? <span class="ind">+</span></button>
+                    <div class="faq-a"><p>Multiply the hours your child was with the nanny by the rate that applied in each stretch, then add any agreed extras like paid sick days or a tip. OurNanny does this for you from the schedule and shows each family's total on payday, weekly, every other week, twice a month or monthly, with a one-tap Venmo payment.</p></div>
                 </div>
                 <div class="faq-item reveal">
                     <button class="faq-q">Do I need a nanny share to use OurNanny? <span class="ind">+</span></button>
-                    <div class="faq-a"><p>Nope. One family with one nanny gets the same schedule, hours tracking, and weekly totals. If you ever add a second family, the cost-splitting math is already built in.</p></div>
+                    <div class="faq-a"><p>No. One family with one nanny gets the same schedule, hours tracking, and payday totals. If you ever add a second family, the cost-splitting math is already built in.</p></div>
                 </div>
                 <div class="faq-item reveal">
                     <button class="faq-q">Is this only for full-time shares? <span class="ind">+</span></button>
-                    <div class="faq-a"><p>Not at all! OurNanny works great for part-time shares, after-school pods, or irregular schedules. You only bill for the hours scheduled.</p></div>
+                    <div class="faq-a"><p>No. OurNanny works for part-time shares, after-school pods, and irregular schedules. You only pay for the hours on the schedule.</p></div>
                 </div>
                 <div class="faq-item reveal">
-                    <button class="faq-q">How does billing work with different times? <span class="ind">+</span></button>
-                    <div class="faq-a"><p>Our system calculates exact overlaps. If Family A is there 9-5 and Family B is there 9-3, the system applies the "2-child rate" for 9-3, and switches to the "1-child rate" for 3-5 automatically.</p></div>
+                    <button class="faq-q">What happens when a child is sick or on vacation? <span class="ind">+</span></button>
+                    <div class="faq-a"><p>Mark the child sick or away in one tap and everyone in the pod, including the nanny, is notified. The schedule and the pay split update to match who is actually there. If your agreement includes paid sick days, OurNanny keeps track of those too.</p></div>
                 </div>
                 <div class="faq-item reveal">
-                    <button class="faq-q">Do you handle payments? <span class="ind">+</span></button>
-                    <div class="faq-a"><p>Currently, we handle the math. At the end of the week, we tell you exactly who owes what to whom (and the nanny), and you can settle up via Venmo, Zelle, or cash. Integrated payments are coming later.</p></div>
+                    <button class="faq-q">Does OurNanny handle payments? <span class="ind">+</span></button>
+                    <div class="faq-a"><p>OurNanny does the math and tells each family exactly what it owes the nanny. You pay through Venmo with one tap, or with Zelle or cash. Money doesn't move through OurNanny.</p></div>
                 </div>
                 <div class="faq-item reveal">
-                    <button class="faq-q">What do I get today? <span class="ind">+</span></button>
-                    <div class="faq-a"><p>Full scheduling, location management, attendance tracking, and automatic cost reporting. Free for early families while we grow.</p></div>
+                    <button class="faq-q">Does OurNanny run payroll or file nanny taxes? <span class="ind">+</span></button>
+                    <div class="faq-a"><p>No. OurNanny tracks hours and works out who owes what. If you pay your nanny through a payroll service, use OurNanny's totals as the hours and amounts you give it. In a nanny share, each family is usually its own employer, so each family typically runs its own payroll.</p></div>
+                </div>
+                <div class="faq-item reveal">
+                    <button class="faq-q">Is OurNanny a nanny agency? <span class="ind">+</span></button>
+                    <div class="faq-a"><p>No. OurNanny doesn't find, place, or employ nannies. It's software for families who already have a nanny, or are setting up a share, to run the week together. Helping families find share partners is on the roadmap.</p></div>
+                </div>
+                <div class="faq-item reveal">
+                    <button class="faq-q">Is OurNanny on Android, and what does it cost? <span class="ind">+</span></button>
+                    <div class="faq-a"><p>OurNanny is on iPhone today and free for early families. Android is on the way. If you're not on iPhone, join the waitlist and we'll tell you when it's ready.</p></div>
                 </div>
             </div>
+            <p class="faq-more reveal">Running a share and want the numbers? Read <a href="/nanny-share-pay">how to split nanny pay in a nanny share</a>.</p>
         </div>
     </section>
 
@@ -806,7 +1011,7 @@
             </div>
             <div class="foot-bottom">
                 <div>© 2026 OurNanny · Made with 💛 in Salt Lake City</div>
-                <div><a href="/terms">Terms</a> &nbsp;·&nbsp; <a href="/privacy">Privacy</a></div>
+                <div><a href="/about">About</a> &nbsp;·&nbsp; <a href="/nanny-share-pay">Nanny share pay guide</a> &nbsp;·&nbsp; <a href="/terms">Terms</a> &nbsp;·&nbsp; <a href="/privacy">Privacy</a></div>
             </div>
         </div>
     </footer>

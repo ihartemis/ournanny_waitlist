@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About OurNanny</title>
+  <meta name="description" content="What OurNanny is: an iPhone app for US families who employ a nanny, on their own or in a nanny share. Who it's for, what it does, what it costs, and who makes it.">
+  <link rel="canonical" href="https://www.ournanny.app/about">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OurNanny">
+  <meta property="og:url" content="https://www.ournanny.app/about">
+  <meta property="og:title" content="About OurNanny">
+  <meta property="og:description" content="Nanny hours and pay, sorted every Friday.">
+  <meta property="og:image" content="https://www.ournanny.app/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="/assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About OurNanny",
+    "url": "https://www.ournanny.app/about",
+    "dateModified": "2026-11-01",
+    "about": { "@id": "https://www.ournanny.app/#app" },
+    "publisher": { "@id": "https://www.ournanny.app/#org" }
+  }
+  </script>
+
+  <style>
+    :root{
+      --ink:#2C1810; --slate:#5D4D44; --cream:#F2E8D5; --paper:#FFFDF8; --line:#E5D9C3;
+      --teal:#26A69A; --teal-dark:#1E837A; --teal-tint:#DDEFEA; --coral:#FF6B6B; --marigold:#FFD93D;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',system-ui,sans-serif;color:var(--slate);background:var(--cream);line-height:1.7;-webkit-font-smoothing:antialiased;font-size:17px}
+    a{color:var(--teal-dark);font-weight:600}
+    .site-header{position:sticky;top:0;background:rgba(242,232,213,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:10}
+    .site-header .inner{max-width:760px;margin:0 auto;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .brand{display:inline-flex;align-items:center;gap:9px;font-family:'Fraunces',serif;font-weight:700;font-size:21px;color:var(--ink);text-decoration:none}
+    .brand img{height:32px;width:auto}
+    .get{background:var(--ink);color:var(--paper);border-radius:999px;padding:8px 16px;font-size:14px;text-decoration:none;white-space:nowrap}
+    main{max-width:760px;margin:0 auto;padding:40px 16px 8px}
+    h1{font-family:'Fraunces',serif;font-weight:800;font-size:clamp(30px,6vw,44px);color:var(--ink);line-height:1.1}
+    .byline{margin-top:10px;font-size:15px;opacity:.8}
+    h2{font-family:'Fraunces',serif;font-weight:700;font-size:24px;color:var(--ink);margin:38px 0 8px;line-height:1.25}
+    p{margin:10px 0}
+    ul,ol{margin:10px 0 10px 22px}
+    li{margin:6px 0}
+    strong{color:var(--ink)}
+    .answer{background:var(--paper);border:1.5px solid var(--ink);border-radius:16px;padding:18px 20px;margin:24px 0;color:var(--ink);font-size:18px}
+    .answer b{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:4px}
+    .table-wrap{overflow-x:auto;margin:16px 0}
+    table{border-collapse:collapse;width:100%;min-width:480px;background:var(--paper);border-radius:12px;overflow:hidden;font-size:15.5px}
+    th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+    th{background:var(--teal-tint);color:var(--ink);font-weight:700}
+    td.n,th.n{text-align:right;white-space:nowrap}
+    tr.total td{font-weight:700;color:var(--ink);border-bottom:none}
+    .calc{background:var(--paper);border:1.5px solid var(--ink);border-radius:18px;padding:20px;margin:20px 0}
+    .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .calc label{display:block;font-size:14px;font-weight:700;color:var(--ink)}
+    .calc label span{display:block;font-weight:400;color:var(--slate);font-size:13px}
+    .calc input{width:100%;margin-top:6px;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;font:inherit;color:var(--ink);background:#fff}
+    .calc input:focus{outline:2px solid var(--teal);border-color:var(--teal)}
+    .calc-out{margin-top:18px;border-top:1.5px dashed var(--line);padding-top:14px}
+    .calc-out .row{display:flex;justify-content:space-between;gap:12px;padding:4px 0}
+    .calc-out .row b{color:var(--ink)}
+    .calc-note{font-size:14px;margin-top:8px}
+    .cta{background:var(--teal);color:var(--paper);border:1.5px solid var(--ink);border-radius:18px;padding:22px;margin:36px 0 8px}
+    .cta h2{color:var(--paper);margin-top:0}
+    .cta a{color:var(--paper);text-decoration:underline}
+    .cta .btn{display:inline-block;background:var(--ink);color:var(--paper);border-radius:999px;padding:10px 20px;text-decoration:none;margin-top:8px}
+    .sources{font-size:14.5px}
+    .site-footer{border-top:1px solid var(--line);margin-top:44px;background:var(--paper)}
+    .site-footer .inner{max-width:760px;margin:0 auto;padding:22px 16px;display:flex;flex-wrap:wrap;gap:10px 20px;justify-content:space-between;font-size:14px}
+    .site-footer a{color:var(--slate)}
+    @media (max-width:560px){ .calc-grid{grid-template-columns:1fr} h2{font-size:22px} }
+  </style>
+  <style>
+    .facts{margin:22px 0;display:grid;gap:0;background:var(--paper);border:1.5px solid var(--ink);border-radius:16px;padding:6px 20px}
+    .facts div{display:grid;grid-template-columns:110px 1fr;gap:14px;padding:12px 0;border-top:1px solid var(--line)}
+    .facts div:first-child{border-top:none}
+    .facts dt{font-weight:800;font-size:12.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--teal-dark);padding-top:3px}
+    .facts dd{margin:0;color:var(--ink)}
+    .lede{font-size:19px;color:var(--ink);margin-top:18px}
+    @media (max-width:560px){ .facts div{grid-template-columns:1fr;gap:2px} }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <a class="brand" href="/"><img src="/assets/logo.png" alt="">OurNanny</a>
+      <a class="get" href="/#waitlist">Get the app</a>
+    </div>
+  </header>
+
+  <main>
+    <h1>About OurNanny</h1>
+    <p class="lede">OurNanny is an iPhone app for US families who employ a nanny, on their own or in a nanny share with other families. It keeps one schedule everyone sees, tracks each child's hours, splits pay fairly when schedules differ, and tells each family what it owes the nanny on payday.</p>
+
+    <dl class="facts">
+      <div><dt>Who it's for</dt><dd>Parents who employ a nanny, alone or in a share. The nanny gets a free login too.</dd></div>
+      <div><dt>What it does</dt><dd>Shared schedule and hosting rotation, hours per child, pay split between families, payday totals, sick days and vacations, one-tap Venmo</dd></div>
+      <div><dt>Platform</dt><dd>iPhone today. Android has a waitlist.</dd></div>
+      <div><dt>Price</dt><dd>Free for early families</dd></div>
+      <div><dt>Where</dt><dd>United States</dd></div>
+      <div><dt>Made by</dt><dd>A mom running a nanny share in Salt Lake City, through Artemis Nova LLC</dd></div>
+    </dl>
+
+    <h2>What OurNanny isn't</h2>
+    <p>OurNanny isn't a nanny agency, a job board or a payroll service. It doesn't find or employ nannies, and money doesn't move through it. It's for families who already have a nanny, or are setting up a share, to run the week together.</p>
+
+    <h2>How the pay split works</h2>
+    <p>You set the nanny's total hourly rate for one child and for two or more. OurNanny splits each day at every drop-off and pick-up, applies the right rate to each stretch, and divides it across the children who were there. The <a href="/nanny-share-pay">nanny share pay guide</a> walks through a full example, with a calculator.</p>
+
+    <h2>Questions</h2>
+    <p>The <a href="/#faq">FAQ</a> covers the common ones. For anything else, email ingrid@artemisnova.com.</p>
+
+    <div class="cta">
+      <h2>Try it with your nanny</h2>
+      <p>Free for early families on iPhone. Not on iPhone? <a href="https://form.typeform.com/to/s9pmWoZm">Join the waitlist</a>.</p>
+      <a class="btn" href="/#waitlist">Get OurNanny</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <div>© 2026 OurNanny · Made in Salt Lake City</div>
+      <div><a href="/">Home</a> · <a href="/nanny-share-pay">Pay guide</a> · <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a></div>
+    </div>
+  </footer>
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
